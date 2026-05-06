@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>シートーンタイ古式マッサージ | 奈良県広陵町の本格タイマッサージ</title>
+  <meta name="description" content="奈良県北葛城郡広陵町みささぎ台のシートーンタイ古式マッサージ。タイ古式マッサージ、オイルマッサージ、足マッサージ、ヘッドマッサージ。駐車場あり。電話予約 080-2486-3170。" />
+
+  <style>
+    :root {
+      --brown-deep: #211207;
+      --brown-dark: #321b0b;
+      --brown: #5a3518;
+      --brown-soft: #8a5d2e;
+      --gold: #d6a843;
+      --gold-light: #f4d889;
+      --cream: #fff3d6;
+      --ivory: #fffaf0;
+      --text: #f8efd8;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+      color: var(--text);
+      background: var(--brown-deep);
+      line-height: 1.8;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(33, 18, 7, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(214, 168, 67, 0.45);
+    }
+
+    .header-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 260px;
+    }
+
+    .brand-logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex: 0 0 auto;
+      border: 1px solid rgba(244, 216, 137, 0.7);
+      background: rgba(255, 250, 240, 0.92);
+      box-shadow: 0 0 24px rgba(214, 168, 67, 0.18);
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-name {
+      font-size: 1.1rem;
+      color: var(--gold-light);
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: rgba(255, 243, 214, 0.75);
+      letter-spacing: 0.05em;
+    }
+
+    .nav {
+      display: flex;
+      gap: 26px;
+      align-items: center;
+      font-size: 0.95rem;
+      color: rgba(255, 243, 214, 0.9);
+    }
+
+    .nav a {
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0;
+      height: 1px;
+      background: var(--gold-light);
+      transition: 0.25s ease;
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 760px;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 85% 35%, rgba(244, 216, 137, 0.22), transparent 28%),
+        linear-gradient(90deg, rgba(24, 12, 4, 0.95) 0%, rgba(45, 23, 8, 0.82) 48%, rgba(45, 23, 8, 0.35) 100%),
+        url("https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1600&q=80") center/cover;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(214, 168, 67, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214, 168, 67, 0.08) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(90deg, #000 0%, transparent 70%);
+      z-index: -1;
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 90px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold-light);
+      letter-spacing: 0.16em;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow::before,
+    .eyebrow::after {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      max-width: 720px;
+      font-size: clamp(2.45rem, 6vw, 5.1rem);
+      line-height: 1.25;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+      text-shadow: 0 6px 26px rgba(0, 0, 0, 0.45);
+    }
+
+    .hero h1 span {
+      color: var(--gold-light);
+    }
+
+    .hero-lead {
+      max-width: 650px;
+      color: rgba(255, 243, 214, 0.88);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      margin-bottom: 38px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 54px;
+      padding: 0 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      color: #2a1506;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), #a77721);
+      box-shadow: 0 14px 34px rgba(214, 168, 67, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 42px rgba(214, 168, 67, 0.36);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(244, 216, 137, 0.6);
+      color: var(--cream);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .floating-card {
+      margin-top: 60px;
+      width: min(760px, 100%);
+      background: rgba(33, 18, 7, 0.72);
+      border: 1px solid rgba(244, 216, 137, 0.35);
+      border-radius: 28px;
+      padding: 22px 26px;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      box-shadow: 0 18px 50px var(--shadow);
+    }
+
+    .floating-card .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(214, 168, 67, 0.18);
+      color: var(--gold-light);
+      font-size: 27px;
+      flex: 0 0 auto;
+    }
+
+    .section {
+      padding: 96px 0;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title .small {
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      font-size: 0.86rem;
+      margin-bottom: 8px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--gold-light);
+      letter-spacing: 0.12em;
+    }
+
+    .about {
+      background:
+        linear-gradient(180deg, var(--ivory), #f2dcc0);
+      color: #3a210f;
+      position: relative;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .about-text {
+      background: rgba(255, 250, 240, 0.82);
+      border: 1px solid rgba(214, 168, 67, 0.35);
+      border-radius: 30px;
+      padding: clamp(28px, 5vw, 52px);
+      box-shadow: 0 22px 50px rgba(90, 53, 24, 0.16);
+    }
+
+    .about-text h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: #5a3518;
+      letter-spacing: 0.1em;
+      margin-bottom: 22px;
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+    }
+
+    .about-photo {
+      min-height: 560px;
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(33, 18, 7, 0.32);
+      border: 1px solid rgba(214, 168, 67, 0.45);
+      background:
+        linear-gradient(180deg, transparent, rgba(33, 18, 7, 0.15)),
+        url("https://cdn.phototourl.com/free/2026-05-06-a4a87e9c-8ddf-4a19-803e-e5a9cd781aa3.jpg") center/cover;
+    }
+
+    .services {
+      background:
+        radial-gradient(circle at top, rgba(214, 168, 67, 0.16), transparent 36%),
+        linear-gradient(180deg, #211207, #331a09);
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .service-card {
+      background: linear-gradient(180deg, rgba(255, 243, 214, 0.07), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(214, 168, 67, 0.45);
+      border-radius: 26px;
+      padding: 34px 24px;
+      text-align: center;
+      min-height: 270px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+      transition: 0.25s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(244, 216, 137, 0.85);
+    }
+
+    .service-icon {
+      width: 74px;
+      height: 74px;
+      border-radius: 24px;
+      margin: 0 auto 18px;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      color: #2a1506;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    }
+
+    .service-card h3 {
+      color: var(--gold-light);
+      font-size: 1.28rem;
+      margin-bottom: 12px;
+      letter-spacing: 0.06em;
+    }
+
+    .service-card p {
+      color: rgba(255, 243, 214, 0.82);
+      font-size: 0.95rem;
+    }
+
+    .menu {
+      background: #fbefd9;
+      color: #3a210f;
+    }
+
+    .menu .section-title h2 {
+      color: #5a3518;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      margin-bottom: 34px;
+    }
+
+    .course-card {
+      background: linear-gradient(180deg, #3b210d, #201006);
+      border: 1px solid rgba(214, 168, 67, 0.55);
+      border-radius: 24px;
+      padding: 24px 20px;
+      color: var(--cream);
+      box-shadow: 0 18px 45px rgba(90, 53, 24, 0.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(244, 216, 137, 0.18), transparent 42%);
+      pointer-events: none;
+    }
+
+    .course-head {
+      position: relative;
+      min-height: 118px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 10px;
+      padding-bottom: 16px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(244, 216, 137, 0.26);
+    }
+
+    .course-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #2a1506;
+      font-size: 26px;
+      box-shadow: 0 10px 24px rgba(214, 168, 67, 0.24);
+    }
+
+    .course-head h3 {
+      color: var(--gold-light);
+      font-size: 1.08rem;
+      line-height: 1.45;
+      letter-spacing: 0.05em;
+    }
+
+    .course-head p {
+      color: rgba(255, 243, 214, 0.72);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      line-height: 1.25;
+    }
+
+    .course-list {
+      position: relative;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .course-list li {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px dotted rgba(244, 216, 137, 0.36);
+      font-size: 1.05rem;
+    }
+
+    .course-list li span {
+      color: rgba(255, 243, 214, 0.92);
+      font-weight: 700;
+    }
+
+    .course-list li strong {
+      color: var(--gold-light);
+      font-size: 1.3rem;
+      white-space: nowrap;
+    }
+
+    .set-menu {
+      background: linear-gradient(135deg, #3b210d, #1b0d04);
+      border: 1px solid rgba(214, 168, 67, 0.65);
+      border-radius: 30px;
+      padding: clamp(24px, 4vw, 44px);
+      color: var(--cream);
+      box-shadow: 0 20px 56px rgba(90, 53, 24, 0.24);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .set-menu::before,
+    .set-menu::after {
+      content: "✿";
+      position: absolute;
+      color: rgba(244, 216, 137, 0.13);
+      font-size: 140px;
+      line-height: 1;
+    }
+
+    .set-menu::before {
+      left: -20px;
+      top: -22px;
+    }
+
+    .set-menu::after {
+      right: -12px;
+      bottom: -32px;
+    }
+
+    .set-title {
+      position: relative;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .set-title h3 {
+      color: var(--gold-light);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      letter-spacing: 0.14em;
+      line-height: 1.35;
+    }
+
+    .set-list {
+      position: relative;
+      display: grid;
+      gap: 14px;
+    }
+
+    .set-row {
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      gap: 18px;
+      align-items: center;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 250, 240, 0.06);
+      border: 1px solid rgba(244, 216, 137, 0.18);
+    }
+
+    .set-detail {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: rgba(255, 243, 214, 0.94);
+      font-size: 1.05rem;
+    }
+
+    .set-detail span {
+      color: var(--gold-light);
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .set-price {
+      justify-self: end;
+      min-width: 132px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      text-align: center;
+      color: #2a1506;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      font-size: 1.45rem;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(214, 168, 67, 0.2);
+    }
+
+    .gallery {
+      background:
+        linear-gradient(180deg, #321b0b, #211207);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .gallery-item {
+      min-height: 280px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(214, 168, 67, 0.4);
+      box-shadow: 0 20px 52px rgba(0, 0, 0, 0.28);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .gallery-item::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(33, 18, 7, 0.35));
+    }
+
+    .g1 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-af1ad532-7006-4f48-bed0-9899eee33c89.jpg"); }
+    .g2 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-0aba62b8-6c88-4e22-b4cf-ddb5ac544327.jpg"); }
+    .g3 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-2b489c93-08d5-4493-abc1-2fcbebd61d85.jpg"); }
+    .g4 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-146ac070-4d1a-412c-8f7a-410c16159c2d.jpg"); }
+
+
+    .booking {
+      background:
+        radial-gradient(circle at 15% 0%, rgba(244, 216, 137, 0.16), transparent 30%),
+        linear-gradient(180deg, #211207, #321b0b);
+    }
+
+    .booking-box {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 34px;
+      align-items: stretch;
+      background: linear-gradient(135deg, rgba(255, 243, 214, 0.08), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(214, 168, 67, 0.45);
+      border-radius: 34px;
+      padding: clamp(24px, 5vw, 48px);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+    }
+
+    .booking-guide {
+      border-radius: 28px;
+      padding: 30px;
+      background: rgba(255, 250, 240, 0.07);
+      border: 1px solid rgba(244, 216, 137, 0.26);
+    }
+
+    .booking-guide h3 {
+      color: var(--gold-light);
+      font-size: clamp(1.5rem, 3vw, 2.3rem);
+      letter-spacing: 0.09em;
+      margin-bottom: 14px;
+    }
+
+    .booking-guide p,
+    .booking-guide li {
+      color: rgba(255, 243, 214, 0.88);
+    }
+
+    .booking-guide ul {
+      list-style: none;
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .booking-guide li {
+      padding: 13px 15px;
+      border-radius: 16px;
+      background: rgba(214, 168, 67, 0.1);
+      border: 1px solid rgba(244, 216, 137, 0.18);
+    }
+
+    .booking-form {
+      display: grid;
+      gap: 16px;
+      border-radius: 28px;
+      padding: 30px;
+      background: rgba(255, 250, 240, 0.95);
+      color: #3a210f;
+      border: 1px solid rgba(214, 168, 67, 0.5);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .form-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-field label {
+      font-weight: 700;
+      color: #5a3518;
+      font-size: 0.92rem;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      border: 1px solid rgba(90, 53, 24, 0.22);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font: inherit;
+      color: #2a1506;
+      background: #fffaf0;
+      outline: none;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(214, 168, 67, 0.18);
+    }
+
+    .booking-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .booking-actions .btn {
+      border: 0;
+      cursor: pointer;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .booking-note {
+      font-size: 0.86rem;
+      color: rgba(58, 33, 15, 0.72);
+      line-height: 1.6;
+    }
+
+    .booking-result {
+      display: none;
+      margin-top: 10px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #f7e7be;
+      color: #3a210f;
+      border: 1px solid rgba(214, 168, 67, 0.45);
+      white-space: pre-wrap;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .contact {
+      background:
+        radial-gradient(circle at 80% 0%, rgba(244, 216, 137, 0.13), transparent 28%),
+        #180d05;
+    }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      background: linear-gradient(135deg, rgba(255, 243, 214, 0.08), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(214, 168, 67, 0.45);
+      border-radius: 34px;
+      padding: clamp(28px, 5vw, 52px);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+    }
+
+    .contact-info h2 {
+      color: var(--gold-light);
+      font-size: clamp(1.7rem, 4vw, 2.7rem);
+      margin-bottom: 18px;
+      letter-spacing: 0.1em;
+    }
+
+    .info-list {
+      list-style: none;
+      margin-top: 22px;
+    }
+
+    .info-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(244, 216, 137, 0.18);
+      color: rgba(255, 243, 214, 0.9);
+    }
+
+    .contact-card {
+      border-radius: 28px;
+      background: rgba(255, 250, 240, 0.08);
+      border: 1px solid rgba(244, 216, 137, 0.32);
+      padding: 32px;
+      display: grid;
+      align-content: center;
+      gap: 18px;
+    }
+
+    .phone-big {
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      color: var(--gold-light);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 24px 16px;
+      background: #0f0803;
+      color: rgba(255, 243, 214, 0.62);
+      border-top: 1px solid rgba(214, 168, 67, 0.35);
+      font-size: 0.86rem;
+    }
+
+    .mobile-reserve {
+      display: none;
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 200;
+    }
+
+    .mobile-reserve .btn {
+      width: 100%;
+      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.36);
+    }
+
+    @media (max-width: 980px) {
+      .header-inner {
+        min-height: 68px;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .hero {
+        min-height: 680px;
+      }
+
+      .about-grid,
+      .booking-box,
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+
+      .about-photo {
+        min-height: 420px;
+      }
+
+      .service-grid,
+      .gallery-grid,
+      .course-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .set-row,
+      .booking-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .set-price {
+        justify-self: start;
+      }
+    }
+
+    @media (max-width: 620px) {
+      body {
+        padding-bottom: 82px;
+      }
+
+      .brand-logo {
+        width: 46px;
+        height: 46px;
+      }
+
+      .brand-name {
+        font-size: 0.95rem;
+      }
+
+      .hero {
+        min-height: 740px;
+        background-position: 62% center;
+      }
+
+      .hero-inner {
+        padding: 70px 0;
+      }
+
+      .floating-card {
+        align-items: flex-start;
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .service-grid,
+      .gallery-grid,
+      .course-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .course-head {
+        min-height: auto;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .set-detail {
+        font-size: 0.98rem;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .mobile-reserve {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#home" class="brand" aria-label="Sri Thong Thai Massage Home">
+        <div class="brand-logo">
+          <img src="https://cdn.phototourl.com/free/2026-05-06-2f87b12b-7301-4dab-b2e9-f759bf217e3b.jpg" alt="シートーンタイ古式マッサージ ロゴ" />
+        </div>
+        <div>
+          <div class="brand-name">シートーンタイ古式マッサージ</div>
+          <div class="brand-sub">Sri Thong Thai Massage</div>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="メインメニュー">
+        <a href="#home">ホーム</a>
+        <a href="#about">当店について</a>
+        <a href="#services">サービス</a>
+        <a href="#menu">料金</a>
+        <a href="#booking">予約</a>
+        <a href="#access">アクセス</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">本格タイ古式マッサージ</div>
+        <h1>心と身体に<br><span>深い癒し</span>を。</h1>
+        <p class="hero-lead">
+          シートーンタイ古式マッサージへようこそ。<br>
+          温かみのあるタイらしい空間で、日常を忘れる特別なひとときをお過ごしください。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#booking">Web予約する →</a>
+          <a class="btn btn-outline" href="tel:08024863170">電話で予約</a>
+          <a class="btn btn-outline" href="#services">メニューを見る</a>
+        </div>
+
+        <div class="floating-card">
+          <div class="icon">☘</div>
+          <div>
+            <strong>タイ伝統の技術を大切に</strong><br>
+            一人ひとりのお身体に合わせて、丁寧に施術いたします。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="container about-grid">
+        <div class="about-text">
+          <h2>当店について</h2>
+          <p>本格タイマッサージのお店です。</p>
+          <p>温かみのある、タイらしいリラックス空間でお過ごしいただけます。</p>
+          <p>お仕事や日常生活でたまった疲れ、肩こり、腰の重さ、ストレスをやさしくほぐします。</p>
+          <p>タイ伝統の技術を大切にしながら、一人ひとりのお身体に合わせて丁寧に施術いたします。</p>
+          <p>心と身体がふっと軽くなり、また元気に過ごせるようお手伝いいたします。</p>
+        </div>
+        <div class="about-photo" aria-label="温かいタイマッサージ店内のイメージ"></div>
+      </div>
+    </section>
+
+    <section id="services" class="section services">
+      <div class="container">
+        <div class="section-title">
+          <div class="small">SERVICE</div>
+          <h2>サービス一覧</h2>
+        </div>
+
+        <div class="service-grid">
+          <article class="service-card">
+            <div class="service-icon">♨</div>
+            <h3>タイ古式マッサージ</h3>
+            <p>ゆったりとしたリズムで全身をじっくりほぐし、自然治癒力を高めます。</p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">✿</div>
+            <h3>アロマオイル</h3>
+            <p>心地よい香りに包まれながら、リンパを流し深いリラックスへ導きます。</p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">☾</div>
+            <h3>肩・首ケア</h3>
+            <p>肩こりや首の疲れを集中的にケアし、軽やかな状態へ整えます。</p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">❋</div>
+            <h3>リラックスコース</h3>
+            <p>お疲れの方におすすめの癒しのセットコースで、心ゆくまでリラックス。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="section menu">
+      <div class="container">
+        <div class="section-title">
+          <div class="small">COURSE MENU</div>
+          <h2>コースメニュー</h2>
+        </div>
+
+        <div class="course-grid">
+          <article class="course-card">
+            <div class="course-head">
+              <span class="course-icon">✿</span>
+              <div>
+                <h3>タイ古式マッサージ</h3>
+                <p>THAI MASSAGE</p>
+              </div>
+            </div>
+            <ul class="course-list">
+              <li><span>30min</span><strong>¥3,000</strong></li>
+              <li><span>60min</span><strong>¥5,000</strong></li>
+              <li><span>90min</span><strong>¥7,000</strong></li>
+              <li><span>120min</span><strong>¥9,000</strong></li>
+            </ul>
+          </article>
+
+          <article class="course-card">
+            <div class="course-head">
+              <span class="course-icon">☘</span>
+              <div>
+                <h3>タイ古式部位集中マッサージ</h3>
+                <p>TARGETED MASSAGE</p>
+              </div>
+            </div>
+            <ul class="course-list">
+              <li><span>30min</span><strong>¥4,000</strong></li>
+              <li><span>60min</span><strong>¥6,000</strong></li>
+              <li><span>90min</span><strong>¥8,000</strong></li>
+              <li><span>120min</span><strong>¥10,000</strong></li>
+            </ul>
+          </article>
+
+          <article class="course-card">
+            <div class="course-head">
+              <span class="course-icon">♨</span>
+              <div>
+                <h3>オイルマッサージ</h3>
+                <p>OIL MASSAGE</p>
+              </div>
+            </div>
+            <ul class="course-list">
+              <li><span>30min</span><strong>¥3,500</strong></li>
+              <li><span>60min</span><strong>¥6,500</strong></li>
+              <li><span>90min</span><strong>¥9,500</strong></li>
+              <li><span>120min</span><strong>¥12,500</strong></li>
+            </ul>
+          </article>
+
+          <article class="course-card">
+            <div class="course-head">
+              <span class="course-icon">☾</span>
+              <div>
+                <h3>足マッサージ</h3>
+                <p>FOOT MASSAGE</p>
+              </div>
+            </div>
+            <ul class="course-list">
+              <li><span>30min</span><strong>¥3,000</strong></li>
+              <li><span>60min</span><strong>¥5,500</strong></li>
+              <li><span>90min</span><strong>¥8,000</strong></li>
+            </ul>
+          </article>
+
+          <article class="course-card">
+            <div class="course-head">
+              <span class="course-icon">❋</span>
+              <div>
+                <h3>ヘッドマッサージ</h3>
+                <p>HEAD MASSAGE</p>
+              </div>
+            </div>
+            <ul class="course-list">
+              <li><span>10min</span><strong>¥900</strong></li>
+              <li><span>20min</span><strong>¥1,500</strong></li>
+              <li><span>30min</span><strong>¥2,500</strong></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="set-menu">
+          <div class="set-title">
+            <div class="small">SET MENU</div>
+            <h3>セットメニュー</h3>
+          </div>
+
+          <div class="set-list">
+            <div class="set-row">
+              <div class="set-detail">
+                <strong>タイ古式マッサージ 30min</strong>
+                <span>＋</span>
+                <strong>足マッサージ 30min</strong>
+              </div>
+              <div class="set-price">¥5,000</div>
+            </div>
+
+            <div class="set-row">
+              <div class="set-detail">
+                <strong>タイ古式マッサージ 60min</strong>
+                <span>＋</span>
+                <strong>足マッサージ 30min</strong>
+              </div>
+              <div class="set-price">¥7,000</div>
+            </div>
+
+            <div class="set-row">
+              <div class="set-detail">
+                <strong>タイ古式マッサージ 60min</strong>
+                <span>＋</span>
+                <strong>オイルマッサージ 30min</strong>
+              </div>
+              <div class="set-price">¥8,000</div>
+            </div>
+
+            <div class="set-row">
+              <div class="set-detail">
+                <strong>タイ古式マッサージ 60min</strong>
+                <span>＋</span>
+                <strong>オイルマッサージ 60min</strong>
+              </div>
+              <div class="set-price">¥11,000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="booking" class="section booking">
+      <div class="container">
+        <div class="section-title">
+          <div class="small">RESERVATION</div>
+          <h2>ご予約</h2>
+        </div>
+
+        <div class="booking-box">
+          <div class="booking-guide">
+            <h3>かんたん予約</h3>
+            <p>
+              ご希望の日時とコースを入力して、SMSで送信できます。<br>
+              お急ぎの場合は、お電話でのご予約がおすすめです。
+            </p>
+            <ul>
+              <li>📞 電話予約：080-2486-3170</li>
+              <li>📝 Webフォーム：入力内容を自動でSMS予約メッセージにします</li>
+              <li>💬 SMS：スマホからそのまま送信できます</li>
+            </ul>
+          </div>
+
+          <form class="booking-form" id="reservationForm">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="customerName">お名前</label>
+                <input id="customerName" name="customerName" type="text" placeholder="例：山田 花子" required>
+              </div>
+
+              <div class="form-field">
+                <label for="customerPhone">電話番号</label>
+                <input id="customerPhone" name="customerPhone" type="tel" placeholder="例：090-0000-0000" required>
+              </div>
+
+              <div class="form-field">
+                <label for="reservationDate">ご希望日</label>
+                <input id="reservationDate" name="reservationDate" type="date" required>
+              </div>
+
+              <div class="form-field">
+                <label for="reservationTime">ご希望時間</label>
+                <input id="reservationTime" name="reservationTime" type="time" required>
+              </div>
+
+              <div class="form-field">
+                <label for="reservationCourse">コース</label>
+                <select id="reservationCourse" name="reservationCourse" required>
+                  <option value="">選択してください</option>
+                  <option>タイ古式マッサージ 30min / ¥3,000</option>
+                  <option>タイ古式マッサージ 60min / ¥5,000</option>
+                  <option>タイ古式マッサージ 90min / ¥7,000</option>
+                  <option>タイ古式マッサージ 120min / ¥9,000</option>
+                  <option>タイ古式部位集中マッサージ 30min / ¥4,000</option>
+                  <option>タイ古式部位集中マッサージ 60min / ¥6,000</option>
+                  <option>タイ古式部位集中マッサージ 90min / ¥8,000</option>
+                  <option>タイ古式部位集中マッサージ 120min / ¥10,000</option>
+                  <option>オイルマッサージ 30min / ¥3,500</option>
+                  <option>オイルマッサージ 60min / ¥6,500</option>
+                  <option>オイルマッサージ 90min / ¥9,500</option>
+                  <option>オイルマッサージ 120min / ¥12,500</option>
+                  <option>足マッサージ 30min / ¥3,000</option>
+                  <option>足マッサージ 60min / ¥5,500</option>
+                  <option>足マッサージ 90min / ¥8,000</option>
+                  <option>ヘッドマッサージ 10min / ¥900</option>
+                  <option>ヘッドマッサージ 20min / ¥1,500</option>
+                  <option>ヘッドマッサージ 30min / ¥2,500</option>
+                  <option>セット：タイ古式30min＋足30min / ¥5,000</option>
+                  <option>セット：タイ古式60min＋足30min / ¥7,000</option>
+                  <option>セット：タイ古式60min＋オイル30min / ¥8,000</option>
+                  <option>セット：タイ古式60min＋オイル60min / ¥11,000</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="peopleCount">人数</label>
+                <select id="peopleCount" name="peopleCount" required>
+                  <option>1名</option>
+                  <option>2名</option>
+                  <option>3名</option>
+                  <option>4名</option>
+                </select>
+              </div>
+
+              <div class="form-field full">
+                <label for="customerMessage">ご要望・メッセージ</label>
+                <textarea id="customerMessage" name="customerMessage" rows="4" placeholder="肩こりがつらい、強め希望など"></textarea>
+              </div>
+            </div>
+
+            <div class="booking-actions">
+              <button class="btn btn-primary" type="submit" data-send="sms">SMSで予約内容を送る</button>
+            </div>
+
+            <a class="btn btn-outline" href="tel:08024863170">電話で予約する</a>
+
+            <p class="booking-note">
+              ※フォーム送信後、スマホのSMS画面が開きます。内容を確認して送信してください。<br>
+              ※予約確定は店舗からの返信後となります。
+            </p>
+
+            <div class="booking-result" id="bookingResult"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery">
+      <div class="container">
+        <div class="section-title">
+          <div class="small">GALLERY</div>
+          <h2>店内の雰囲気</h2>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="gallery-item g1" aria-label="タイらしい店内イメージ"></div>
+          <div class="gallery-item g2" aria-label="施術ルームイメージ"></div>
+          <div class="gallery-item g3" aria-label="リラックス空間イメージ"></div>
+          <div class="gallery-item g4" aria-label="アロマとタオルのイメージ"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="access" class="section contact">
+      <div class="container">
+        <div class="contact-box">
+          <div class="contact-info">
+            <h2>ご予約・お問い合わせ</h2>
+            <p>
+              お仕事帰りやお買い物の合間にもお気軽にお立ち寄りください。<br>
+              心を込めて、皆さまの健康と癒しをサポートいたします。
+            </p>
+            <ul class="info-list">
+              <li><strong>住所：</strong>〒635-0835 奈良県北葛城郡広陵町みささぎ台３９−２２ 2F
+</li>
+              <li><strong>営業時間：</strong>10:00〜24:00（最終受付 23:30）</li>
+              <li><strong>定休日：</strong>不定休</li>
+              <li><strong>アクセス：</strong>駐車場あり2台</li>
+            </ul>
+          </div>
+
+          <div class="contact-card">
+            <p>ご予約方法をお選びください</p>
+            <div class="phone-big">080-2486-3170</div>
+            <a class="btn btn-primary" href="#booking">Web予約フォームへ</a>
+            <a class="btn btn-outline" href="tel:08024863170">今すぐ電話する</a>
+            <a class="btn btn-outline" href="sms:08024863170?body=予約希望です。%0A名前：%0A希望日時：%0Aコース：%0A人数：">SMSで予約する</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © Sri Thong Thai Massage. All Rights Reserved.
+  </footer>
+
+  <div class="mobile-reserve">
+    <a class="btn btn-primary" href="#booking">Web予約はこちら</a>
+  </div>
+
+  <script>
+    const STORE_PHONE = "08024863170";
+
+    function buildReservationMessage() {
+      const name = document.getElementById("customerName").value.trim();
+      const phone = document.getElementById("customerPhone").value.trim();
+      const date = document.getElementById("reservationDate").value;
+      const time = document.getElementById("reservationTime").value;
+      const course = document.getElementById("reservationCourse").value;
+      const people = document.getElementById("peopleCount").value;
+      const message = document.getElementById("customerMessage").value.trim();
+
+      return `【予約希望】シートーンタイ古式マッサージ
+
+お名前：${name}
+電話番号：${phone}
+希望日時：${date} ${time}
+コース：${course}
+人数：${people}
+ご要望：${message || "なし"}
+
+※店舗からの返信後、予約確定となります。`;
+    }
+
+    document.getElementById("reservationForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const message = buildReservationMessage();
+      const resultBox = document.getElementById("bookingResult");
+
+      resultBox.style.display = "block";
+      resultBox.textContent = "送信内容プレビュー：
+
+" + message;
+
+      window.location.href = `sms:${STORE_PHONE}?body=${encodeURIComponent(message)}`;
+    });
+  </script>
+
+</body>
+</html>
