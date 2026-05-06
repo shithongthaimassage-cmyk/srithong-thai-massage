@@ -1341,9 +1341,7 @@
       const resultBox = document.getElementById("bookingResult");
 
       resultBox.style.display = "block";
-      resultBox.textContent = "送信内容プレビュー：
-
-" + message;
+resultBox.textContent = "送信内容プレビュー：\n\n" + message;
 
       window.location.href = `sms:${STORE_PHONE}?body=${encodeURIComponent(message)}`;
     });
