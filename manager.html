@@ -464,6 +464,29 @@
     .slot.manual { background: #888; color: #fff; font-weight: 900; }
     .slot.booked { background: var(--gold-500); color: #2a1506; font-weight: 900; }
     .slot.confirmed { background: var(--gray); color: #fff; font-weight: 900; }
+
+    .slot.range-start,
+    .slot.range-mid {
+      border-right-color: rgba(255,255,255,0.35);
+      box-shadow: inset 0 3px 0 rgba(255,255,255,0.22), inset 0 -3px 0 rgba(0,0,0,0.08);
+    }
+
+    .slot.range-start {
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+    }
+
+    .slot.range-end {
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+      box-shadow: inset 0 3px 0 rgba(255,255,255,0.22), inset 0 -3px 0 rgba(0,0,0,0.08);
+    }
+
+    .slot.range-mid small,
+    .slot.range-end small {
+      opacity: 0.55;
+    }
+
     .slot.offday { background: #d1d5db; color: #555; font-weight: 900; }
     .slot.indefinite-off { background: var(--dark-gray); color: #fff; font-weight: 900; }
     .slot small {
@@ -708,7 +731,7 @@
                 <h3>日付・表示</h3>
                 <p>日付を変えると、その日の予約表に切り替わります。</p>
               </div>
-              <span class="view-chip">30分表示 / 10分予約対応</span>
+              <span class="view-chip">30分表示 / 長い予約は横つなぎ表示</span>
             </div>
             <div class="card-body">
               <div class="toolbar">
@@ -727,7 +750,7 @@
             <div class="card-header">
               <div>
                 <h3>予約表</h3>
-                <p>空き枠をクリックで30分枠作成。スタッフ名クリックで好きな時間を1つの枠として作成。</p>
+                <p>120分など長い予約は、開始時間から終了時間まで横につながって表示されます。</p>
               </div>
               <button class="btn green" id="openCreateBlockBtn">＋ 予約あり枠を作成</button>
             </div>
@@ -1098,6 +1121,36 @@
       return null;
     }
 
+    function getDisplaySlotsForTimeRange(slots) {
+      if (!slots || !slots.length) return [];
+
+      return displayTimeList.filter(displayTime => {
+        const subSlots = getDisplaySubSlots(displayTime);
+        return hasIntersection(slots, subSlots);
+      });
+    }
+
+    function getEndTimeFromSlots(slots) {
+      if (!slots || !slots.length) return "";
+      const lastSlot = slots[slots.length - 1];
+      const lastIndex = timeList.indexOf(lastSlot);
+
+      if (lastIndex < 0) return "";
+      return timeList[Math.min(lastIndex + 1, timeList.length - 1)] || lastSlot;
+    }
+
+    function getRangeClass(displayTime, rangeDisplaySlots) {
+      if (!rangeDisplaySlots || !rangeDisplaySlots.length) return "";
+
+      const index = rangeDisplaySlots.indexOf(displayTime);
+      if (index < 0) return "";
+
+      if (rangeDisplaySlots.length === 1) return " range-start range-end";
+      if (index === 0) return " range-start";
+      if (index === rangeDisplaySlots.length - 1) return " range-end";
+      return " range-mid";
+    }
+
     function isGroupedClosedLegacy(date, staff, displayTime) {
       const subSlots = getDisplaySubSlots(displayTime);
       return subSlots.some(time => state.closedSlots[slotKey(date, staff, time)]);
@@ -1305,13 +1358,27 @@
 
           if (grouped) {
             const status = grouped.booking.status || "pending";
+            const slots = grouped.booking.requiredSlots || [];
+            const rangeDisplaySlots = getDisplaySlotsForTimeRange(slots);
+            const rangeClass = getRangeClass(time, rangeDisplaySlots);
+            const startTime = grouped.booking.time || slots[0] || grouped.time || "";
+            const endTime = getEndTimeFromSlots(slots);
+            const isStartCell = rangeDisplaySlots[0] === time;
+
             cls += status === "confirmed" ? " confirmed" : " booked";
+            cls += rangeClass;
+
             label = status === "confirmed"
-              ? `確定済み<br><small>${grouped.time}</small>`
-              : `予約あり<br><small>${grouped.time}</small>`;
+              ? `${isStartCell ? "確定済み" : "→"}<br><small>${startTime}〜${endTime}</small>`
+              : `${isStartCell ? "予約あり" : "→"}<br><small>${startTime}〜${endTime}</small>`;
           } else if (manualBlock) {
+            const rangeDisplaySlots = getDisplaySlotsForTimeRange(manualBlock.slots || []);
+            const rangeClass = getRangeClass(time, rangeDisplaySlots);
+            const isStartCell = rangeDisplaySlots[0] === time;
+
             cls += " manual";
-            label = `予約あり<br><small>${manualBlock.start}-${manualBlock.end}</small>`;
+            cls += rangeClass;
+            label = `${isStartCell ? "予約あり" : "→"}<br><small>${manualBlock.start}-${manualBlock.end}</small>`;
           } else if (legacyClosed || indefiniteOff) {
             if (indefiniteOff) {
               cls += " indefinite-off";
