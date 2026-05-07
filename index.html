@@ -1340,6 +1340,7 @@
 
   <script>
     const SETTINGS_DOC = db.collection("settings").doc("main");
+    const MAIL_API_URL = "https://script.google.com/macros/s/AKfycbzvMR6t3V_CGBLd59muGyWVduC8vzyJEopVM39wTiLtGRiyRlU-XN0kX6QMWohq37Yr/exec";
     const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
     const timeList = [
       "10:00", "10:10", "10:20", "10:30", "10:40", "10:50",
@@ -1569,6 +1570,33 @@
         `店舗からの確認連絡後、予約確定となります。`;
     }
 
+    async function sendBookingEmail(booking) {
+      try {
+        await fetch(MAIL_API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            id: booking.id || "",
+            name: booking.name || "",
+            phone: booking.phone || "",
+            staff: booking.staff || "",
+            date: booking.date || "",
+            time: booking.time || "",
+            endTime: booking.endTime || "",
+            course: booking.course || "",
+            duration: booking.duration || "",
+            people: booking.people || "",
+            message: booking.message || ""
+          })
+        });
+      } catch (error) {
+        console.error("Mail send failed:", error);
+      }
+    }
+
     document.getElementById("reservationForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
@@ -1587,6 +1615,7 @@
         }
 
         const docRef = await db.collection("bookings").add(booking);
+        await sendBookingEmail({ ...booking, id: docRef.id });
         showBookingResult({ ...booking, id: docRef.id });
 
         this.reset();
