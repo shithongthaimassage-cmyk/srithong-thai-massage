@@ -379,15 +379,24 @@
     }
 
     .service-icon {
-      width: 74px;
-      height: 74px;
-      border-radius: 24px;
+      width: 86px;
+      height: 86px;
+      border-radius: 28px;
       margin: 0 auto 18px;
-      display: grid;
-      place-items: center;
-      font-size: 34px;
-      color: #2a1506;
+      display: block;
+      overflow: hidden;
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      border: 2px solid rgba(244, 216, 137, 0.9);
+      box-shadow: 0 12px 28px rgba(214, 168, 67, 0.24);
+      padding: 4px;
+    }
+
+    .service-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 22px;
+      display: block;
     }
 
     .service-card h3 {
@@ -452,15 +461,24 @@
     }
 
     .course-icon {
-      width: 56px;
-      height: 56px;
+      width: 74px;
+      height: 74px;
       border-radius: 50%;
-      display: grid;
-      place-items: center;
+      display: block;
+      overflow: hidden;
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: #2a1506;
-      font-size: 26px;
-      box-shadow: 0 10px 24px rgba(214, 168, 67, 0.24);
+      border: 2px solid rgba(244, 216, 137, 0.9);
+      box-shadow: 0 12px 28px rgba(214, 168, 67, 0.28);
+      padding: 4px;
+      flex: 0 0 auto;
+    }
+
+    .course-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
     }
 
     .course-head h3 {
@@ -622,9 +640,9 @@
       background: linear-gradient(180deg, transparent, rgba(33, 18, 7, 0.35));
     }
 
-    .g1 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-af1ad532-7006-4f48-bed0-9899eee33c89.jpg"); }
-    .g2 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-0aba62b8-6c88-4e22-b4cf-ddb5ac544327.jpg"); }
-    .g3 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-2b489c93-08d5-4493-abc1-2fcbebd61d85.jpg"); }
+    .g1 { background-image: url("https://cdn.phototourl.com/free/2026-05-07-5d10c5d3-752b-4ac1-b68a-feb1c1515035.png"); }
+    .g2 { background-image: url("https://cdn.phototourl.com/free/2026-05-07-7e8e6ed9-2198-45bd-b446-e16e589e00d3.png"); }
+    .g3 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-0aba62b8-6c88-4e22-b4cf-ddb5ac544327.jpg"); }
     .g4 { background-image: url("https://cdn.phototourl.com/free/2026-05-06-146ac070-4d1a-412c-8f7a-410c16159c2d.jpg"); }
 
 
@@ -1142,15 +1160,23 @@
       }
 
       .service-icon {
-        width: 62px;
-        height: 62px;
-        border-radius: 20px;
-        font-size: 28px;
+        width: 78px;
+        height: 78px;
+        border-radius: 24px;
+      }
+
+      .service-icon img {
+        border-radius: 18px;
       }
 
       .course-card {
         border-radius: 22px;
         padding: 22px 18px;
+      }
+
+      .course-icon {
+        width: 68px;
+        height: 68px;
       }
 
       .course-list li {
@@ -1425,25 +1451,25 @@
 
         <div class="service-grid">
           <article class="service-card">
-            <div class="service-icon">♨</div>
+            <div class="service-icon"><img src="https://cdn.phototourl.com/free/2026-05-07-e300888e-4d11-444b-b7d5-01eba3e29455.jpg" alt="タイ古式マッサージ"></div>
             <h3>タイ古式マッサージ</h3>
             <p>奈良・広陵町で本格タイ古式マッサージを受けたい方へ。ゆったりとしたリズムで全身をじっくりほぐします。</p>
           </article>
 
           <article class="service-card">
-            <div class="service-icon">✿</div>
+            <div class="service-icon"><img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=320&q=80" alt="アロマオイルマッサージ"></div>
             <h3>アロマオイル</h3>
             <p>オイルマッサージでリンパをやさしく流し、肩こり・疲労回復・深いリラックスへ導きます。</p>
           </article>
 
           <article class="service-card">
-            <div class="service-icon">☾</div>
+            <div class="service-icon"><img src="https://cdn.phototourl.com/free/2026-05-07-c2e91de7-e622-4e18-bbd1-b4eae2400676.jpg" alt="肩・首ケア"></div>
             <h3>肩・首ケア</h3>
             <p>肩こりや首の疲れを集中的にケアし、軽やかな状態へ整えます。</p>
           </article>
 
           <article class="service-card">
-            <div class="service-icon">❋</div>
+            <div class="service-icon"><img src="https://cdn.phototourl.com/free/2026-05-07-bcdb1e0e-5cac-4455-b525-d7cdeed76180.jpg" alt="リラックスコース"></div>
             <h3>リラックスコース</h3>
             <p>お疲れの方におすすめの癒しのセットコースで、心ゆくまでリラックス。</p>
           </article>
@@ -1461,7 +1487,7 @@
         <div class="course-grid">
           <article class="course-card">
             <div class="course-head">
-              <span class="course-icon">✿</span>
+              <span class="course-icon"><img src="https://cdn.phototourl.com/free/2026-05-07-80eda85d-b439-44dc-bf47-12ec59a847af.jpg" alt="タイ古式マッサージ イメージ"></span>
               <div>
                 <h3>タイ古式マッサージ</h3>
                 <p>THAI MASSAGE</p>
@@ -1477,7 +1503,7 @@
 
           <article class="course-card">
             <div class="course-head">
-              <span class="course-icon">☘</span>
+              <span class="course-icon"><img src="https://cdn.phototourl.com/free/2026-05-07-201ac02d-9882-46ff-9548-6c6f68fd92d8.jpg" alt="タイ古式部位集中マッサージ イメージ"></span>
               <div>
                 <h3>タイ古式部位集中マッサージ</h3>
                 <p>TARGETED MASSAGE</p>
@@ -1493,7 +1519,7 @@
 
           <article class="course-card">
             <div class="course-head">
-              <span class="course-icon">♨</span>
+              <span class="course-icon"><img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=300&q=80" alt="オイルマッサージ イメージ"></span>
               <div>
                 <h3>オイルマッサージ</h3>
                 <p>OIL MASSAGE</p>
@@ -1509,7 +1535,7 @@
 
           <article class="course-card">
             <div class="course-head">
-              <span class="course-icon">☾</span>
+              <span class="course-icon"><img src="https://cdn.phototourl.com/free/2026-05-07-6444d70c-95cb-4d0d-bbb2-90b0d85bc506.jpg" alt="足マッサージ イメージ"></span>
               <div>
                 <h3>足マッサージ</h3>
                 <p>FOOT MASSAGE</p>
@@ -1524,7 +1550,7 @@
 
           <article class="course-card">
             <div class="course-head">
-              <span class="course-icon">❋</span>
+              <span class="course-icon"><img src="https://cdn.phototourl.com/free/2026-05-07-0a555435-5a78-4351-b4ce-a30606747964.jpg" alt="ヘッドマッサージ イメージ"></span>
               <div>
                 <h3>ヘッドマッサージ</h3>
                 <p>HEAD MASSAGE</p>
