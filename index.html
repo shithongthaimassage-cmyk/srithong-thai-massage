@@ -1214,7 +1214,9 @@
 
               <div class="form-field">
                 <label for="reservationTime">ご希望時間</label>
-                <input id="reservationTime" name="reservationTime" type="time" required>
+                <select id="reservationTime" name="reservationTime" required>
+                  <option value="">選択してください</option>
+                </select>
               </div>
 
               <div class="form-field">
@@ -1307,7 +1309,7 @@
             <ul class="info-list">
               <li><strong>住所：</strong>〒635-0835 奈良県北葛城郡広陵町みささぎ台３９−２２ 2F
 </li>
-              <li><strong>営業時間：</strong>10:00〜24:00（最終受付 23:30）</li>
+              <li><strong>営業時間：</strong>10:00〜24:00（最終受付 24:00）</li>
               <li><strong>定休日：</strong>不定休</li>
               <li><strong>アクセス：</strong>駐車場あり2台</li>
             </ul>
@@ -1336,13 +1338,21 @@
     const STORAGE_KEY = "srithong_manager_v1";
     const defaultStaff = ["WANGNA", "Yume", "Tukta", "Patty", "Kathe", "Dee", "Aiko", "Bella"];
     const timeList = [
-      "10:00", "10:30", "11:00", "11:30",
-      "12:00", "12:30", "13:00", "13:30",
-      "14:00", "14:30", "15:00", "15:30",
-      "16:00", "16:30", "17:00", "17:30",
-      "18:00", "18:30", "19:00", "19:30",
-      "20:00", "20:30", "21:00", "21:30",
-      "22:00", "22:30", "23:00", "23:30"
+      "10:00", "10:10", "10:20", "10:30", "10:40", "10:50",
+      "11:00", "11:10", "11:20", "11:30", "11:40", "11:50",
+      "12:00", "12:10", "12:20", "12:30", "12:40", "12:50",
+      "13:00", "13:10", "13:20", "13:30", "13:40", "13:50",
+      "14:00", "14:10", "14:20", "14:30", "14:40", "14:50",
+      "15:00", "15:10", "15:20", "15:30", "15:40", "15:50",
+      "16:00", "16:10", "16:20", "16:30", "16:40", "16:50",
+      "17:00", "17:10", "17:20", "17:30", "17:40", "17:50",
+      "18:00", "18:10", "18:20", "18:30", "18:40", "18:50",
+      "19:00", "19:10", "19:20", "19:30", "19:40", "19:50",
+      "20:00", "20:10", "20:20", "20:30", "20:40", "20:50",
+      "21:00", "21:10", "21:20", "21:30", "21:40", "21:50",
+      "22:00", "22:10", "22:20", "22:30", "22:40", "22:50",
+      "23:00", "23:10", "23:20", "23:30", "23:40", "23:50",
+      "24:00"
     ];
 
     function loadManagerState() {
@@ -1389,7 +1399,7 @@
       const startIndex = timeList.indexOf(startTime);
       if (startIndex < 0) return [];
 
-      const slotCount = Math.ceil(durationMinutes / 30);
+      const slotCount = Math.ceil(durationMinutes / 10);
       return timeList.slice(startIndex, startIndex + slotCount);
     }
 
@@ -1403,6 +1413,18 @@
         const option = document.createElement("option");
         option.value = staff;
         option.textContent = staff;
+        select.appendChild(option);
+      });
+    }
+
+    function populateTimeSelect() {
+      const select = document.getElementById("reservationTime");
+      select.innerHTML = '<option value="">選択してください</option>';
+
+      timeList.forEach(time => {
+        const option = document.createElement("option");
+        option.value = time;
+        option.textContent = time;
         select.appendChild(option);
       });
     }
@@ -1440,7 +1462,7 @@
       if (!requiredSlots.length) {
         return {
           ok: false,
-          message: "予約時間は10:00〜23:30の30分単位で選択してください。"
+          message: "予約時間は10:00〜24:00の10分単位で選択してください。"
         };
       }
 
@@ -1504,7 +1526,7 @@
         `店舗からの確認連絡後、予約確定となります。`;
     }
 
-    document.getElementById("reservationTime").setAttribute("step", "1800");
+    
 
     document.getElementById("reservationForm").addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1527,6 +1549,7 @@
     });
 
     populateStaffSelect();
+    populateTimeSelect();
   </script>
 
 </body>
