@@ -1397,8 +1397,22 @@
     }
 
     function getCourseDurationMinutes(courseText) {
-      const match = courseText.match(/(\d+)min/);
-      return match ? Number(match[1]) : 60;
+      const minuteMatches = [...courseText.matchAll(/(\d+)min/g)].map(match => Number(match[1]));
+
+      if (!minuteMatches.length) return 60;
+
+      // セットメニューは「60min＋30min」のように複数の時間が入るため、合計時間で予約枠を計算します。
+      return minuteMatches.reduce((total, minutes) => total + minutes, 0);
+    }
+
+    function getCourseEndTime(startTime, durationMinutes) {
+      const startIndex = timeList.indexOf(startTime);
+      const slotCount = Math.ceil(durationMinutes / 10);
+      const endIndex = Math.min(startIndex + slotCount, timeList.length - 1);
+
+      if (startIndex < 0) return "";
+
+      return timeList[endIndex] || "";
     }
 
     function getRequiredTimeSlots(startTime, durationMinutes) {
@@ -1460,12 +1474,15 @@
       const duration = getCourseDurationMinutes(course);
       const requiredSlots = getRequiredTimeSlots(time, duration);
 
+      const endTime = getCourseEndTime(time, duration);
+
       return {
         name,
         phone,
         staff,
         date,
         time,
+        endTime,
         course,
         people,
         message,
@@ -1544,8 +1561,9 @@
         `お名前：${booking.name}\n` +
         `電話番号：${booking.phone}\n` +
         `スタッフ：${booking.staff}\n` +
-        `希望日時：${booking.date} ${booking.time}\n` +
+        `希望日時：${booking.date} ${booking.time}〜${booking.endTime}\n` +
         `コース：${booking.course}\n` +
+        `施術時間：${booking.duration}分\n` +
         `人数：${booking.people}\n` +
         `予約枠：${booking.requiredSlots.join(" / ")}\n\n` +
         `店舗からの確認連絡後、予約確定となります。`;
