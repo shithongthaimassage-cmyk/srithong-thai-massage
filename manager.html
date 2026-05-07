@@ -16,6 +16,7 @@
       --green: #0f766e;
       --gray: #777;
       --confirmed: #737373;
+      --manual: #8a8a8a;
       --bg: #f4f6f8;
     }
 
@@ -23,50 +24,164 @@
     body { font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; background: var(--bg); color: #222; }
     button, input, select { font: inherit; }
 
-    .manager-header { background: linear-gradient(135deg, var(--brown-deep), var(--brown)); color: var(--cream); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .manager-header {
+      background: linear-gradient(135deg, var(--brown-deep), var(--brown));
+      color: var(--cream);
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
     .manager-header h1 { font-size: 22px; }
-    .manager-header a { color: #2a1506; background: var(--gold-light); padding: 9px 16px; border-radius: 999px; text-decoration: none; font-weight: bold; }
+    .manager-header a {
+      color: #2a1506;
+      background: var(--gold-light);
+      padding: 9px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-    .toolbar, .control-panel { padding: 16px 24px; background: #fff; border-bottom: 1px solid #ddd; display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
+    .toolbar, .control-panel {
+      padding: 16px 24px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      gap: 12px;
+      align-items: end;
+      flex-wrap: wrap;
+    }
     .control-panel { align-items: stretch; }
     .field { display: grid; gap: 5px; min-width: 150px; }
     .field label { font-size: 12px; font-weight: bold; color: #5a3518; }
-    .field input, .field select { padding: 10px 12px; border-radius: 9px; border: 1px solid #ccc; min-height: 42px; background: #fff; }
+    .field input, .field select {
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 1px solid #ccc;
+      min-height: 42px;
+      background: #fff;
+    }
 
-    .btn { border: 0; border-radius: 9px; padding: 10px 14px; min-height: 42px; font-weight: bold; cursor: pointer; color: white; background: var(--brown); }
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 10px 14px;
+      min-height: 42px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      background: var(--brown);
+    }
     .btn.gold { color: #2a1506; background: var(--gold); }
     .btn.green { background: var(--green); }
     .btn.gray { background: var(--gray); }
     .btn.danger { background: var(--danger); }
 
-    .staff-panel { padding: 16px 24px; background: #fffaf0; border-bottom: 1px solid #e6d3a6; display: grid; grid-template-columns: 1fr 1.35fr; gap: 18px; }
-    .panel-card { background: #fff; border: 1px solid #ead7a8; border-radius: 16px; padding: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+    .staff-panel {
+      padding: 16px 24px;
+      background: #fffaf0;
+      border-bottom: 1px solid #e6d3a6;
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 18px;
+    }
+    .panel-card {
+      background: #fff;
+      border: 1px solid #ead7a8;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    }
     .panel-card h2 { color: #5a3518; font-size: 18px; margin-bottom: 8px; }
     .panel-card .hint { color: #7a5a2e; font-size: 13px; margin-bottom: 12px; }
     .staff-list { display: flex; flex-wrap: wrap; gap: 8px; min-height: 42px; }
-    .staff-chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #ddd; border-radius: 999px; background: #fff; padding: 7px 9px 7px 12px; cursor: grab; user-select: none; }
+    .staff-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      background: #fff;
+      padding: 7px 9px 7px 12px;
+      cursor: grab;
+      user-select: none;
+    }
     .staff-chip.dragging { opacity: 0.45; cursor: grabbing; }
     .staff-chip.drag-over { outline: 3px solid rgba(214, 168, 67, 0.45); }
     .staff-chip .handle { color: #9a7a32; font-weight: bold; }
     .staff-chip strong { color: #3a210f; }
-    .staff-chip button { border: 0; width: 24px; height: 24px; border-radius: 50%; background: #eee; color: var(--danger); cursor: pointer; font-weight: bold; }
+    .staff-chip button {
+      border: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #eee;
+      color: var(--danger);
+      cursor: pointer;
+      font-weight: bold;
+    }
     .add-staff-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .add-staff-row input { flex: 1; min-width: 180px; padding: 10px 12px; border-radius: 9px; border: 1px solid #ccc; }
+    .add-staff-row input {
+      flex: 1;
+      min-width: 180px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 1px solid #ccc;
+    }
 
-    .notice { padding: 12px 24px; background: #fff3d6; border-bottom: 1px solid #e2c36b; color: #5a3518; font-size: 14px; }
+    .notice {
+      padding: 12px 24px;
+      background: #fff3d6;
+      border-bottom: 1px solid #e2c36b;
+      color: #5a3518;
+      font-size: 14px;
+    }
+
     .schedule-wrap { padding: 20px 24px; overflow-x: auto; }
-    .schedule { min-width: 1200px; border-collapse: collapse; background: white; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
-    .schedule th, .schedule td { border: 1px solid #ddd; text-align: center; min-width: 92px; height: 50px; font-size: 13px; }
-    .schedule th { background: #2d180a; color: var(--gold-light); position: sticky; top: 0; z-index: 2; }
-    .staff-name { background: var(--cream); color: #3a210f; font-weight: bold; min-width: 150px !important; position: sticky; left: 0; z-index: 1; cursor: grab; user-select: none; }
+    .schedule {
+      min-width: 1200px;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+    .schedule th, .schedule td {
+      border: 1px solid #ddd;
+      text-align: center;
+      min-width: 92px;
+      height: 52px;
+      font-size: 13px;
+    }
+    .schedule th {
+      background: #2d180a;
+      color: var(--gold-light);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    .staff-name {
+      background: var(--cream);
+      color: #3a210f;
+      font-weight: bold;
+      min-width: 150px !important;
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+    .staff-name:hover { background: #ffe8aa; }
     .staff-name.dragging { opacity: 0.55; cursor: grabbing; }
     .staff-name.drag-over { outline: 3px solid rgba(214, 168, 67, 0.55); }
     .staff-name.offday { background: #e5e7eb; color: #555; }
     .staff-name.indefinite-off { background: #4b5563; color: #fff; }
     .drag-mini { display: block; font-size: 11px; color: #8a5d2e; margin-top: 2px; }
+    .click-mini { display: block; font-size: 11px; color: #0f766e; margin-top: 2px; }
 
     .slot { cursor: pointer; background: #fff; transition: 0.15s; }
     .slot:hover { background: #fff3d6; transform: scale(1.02); }
+    .slot.manual { background: var(--manual); color: white; font-weight: bold; }
     .slot.closed { background: #999; color: white; font-weight: bold; }
     .slot.booked { background: var(--gold); color: #2a1506; font-weight: bold; }
     .slot.confirmed { background: var(--confirmed); color: #fff; font-weight: bold; }
@@ -74,26 +189,61 @@
     .slot.indefinite-off { background: #4b5563; color: #fff; font-weight: bold; }
     .slot small { display: block; font-size: 11px; margin-top: 2px; opacity: 0.85; }
 
-    .legend { padding: 0 24px 22px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 14px; }
+    .legend {
+      padding: 0 24px 22px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
     .legend span { display: inline-flex; align-items: center; gap: 6px; }
     .box { width: 18px; height: 18px; border: 1px solid #ccc; }
     .box.free { background: white; }
-    .box.closed { background: #999; }
+    .box.manual { background: var(--manual); }
     .box.booked { background: var(--gold); }
     .box.confirmed { background: var(--confirmed); }
     .box.offday { background: #d1d5db; }
     .box.indefinite-off { background: #4b5563; }
 
-    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
-    .modal { width: min(560px, 100%); background: #fff; border-radius: 18px; padding: 20px; box-shadow: 0 20px 80px rgba(0,0,0,0.32); }
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal {
+      width: min(580px, 100%);
+      background: #fff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.32);
+    }
     .modal h3 { color: #5a3518; margin-bottom: 12px; }
     .modal p { margin-bottom: 8px; line-height: 1.6; }
-    .modal-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; margin-top: 18px; }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .modal-grid .field { min-width: 0; }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
 
     @media (max-width: 900px) {
       .staff-panel { grid-template-columns: 1fr; }
       .toolbar, .control-panel { align-items: stretch; }
       .field, .btn { width: 100%; }
+      .modal-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -108,18 +258,22 @@
     <div class="field"><label for="managerDate">日付</label><input type="date" id="managerDate"></div>
     <button class="btn gold" id="todayBtn">今日</button>
     <button class="btn" id="refreshBtn">更新</button>
-    <button class="btn gray" id="resetDayBtn">この日の予約あり（店舗停止）を全部クリア</button>
+    <button class="btn gray" id="resetDayBtn">この日の店舗側予約枠を全部クリア</button>
   </div>
 
   <section class="staff-panel">
     <div class="panel-card">
       <h2>スタッフ追加</h2>
       <p class="hint">スタッフ名を追加できます。</p>
-      <div class="add-staff-row"><input id="newStaffName" type="text" placeholder="例：Mali"><button class="btn green" id="addStaffBtn">スタッフ追加</button></div>
+      <div class="add-staff-row">
+        <input id="newStaffName" type="text" placeholder="例：Mali">
+        <button class="btn green" id="addStaffBtn">スタッフ追加</button>
+      </div>
     </div>
+
     <div class="panel-card">
       <h2>スタッフ一覧・削除・並び替え</h2>
-      <p class="hint">名前をドラッグすると順番を変更できます。変更は全端末に反映されます。</p>
+      <p class="hint">名前をドラッグすると順番変更。スタッフ名の行をクリックすると、時間を選んで1つの予約あり枠を作れます。</p>
       <div class="staff-list" id="staffListView"></div>
     </div>
   </section>
@@ -128,20 +282,22 @@
     <div class="field"><label for="bulkStaff">対象スタッフ</label><select id="bulkStaff"></select></div>
     <div class="field"><label for="bulkStart">開始時間</label><select id="bulkStart"></select></div>
     <div class="field"><label for="bulkEnd">終了時間</label><select id="bulkEnd"></select></div>
-    <button class="btn danger" id="closeRangeBtn">指定時間を予約ありにする</button>
+    <button class="btn danger" id="closeRangeBtn">指定時間を1つの予約枠にする</button>
     <button class="btn green" id="openRangeBtn">指定時間を開放</button>
     <button class="btn danger" id="staffOffTodayBtn">今日だけ休みにする</button>
     <button class="btn danger" id="staffOffIndefiniteBtn">無期限で休みにする</button>
     <button class="btn green" id="staffOnBtn">このスタッフを開放</button>
   </section>
 
-  <div class="notice">Firebase接続済みです。予約あり枠をクリックすると、詳細確認・開放・削除ができます。管理画面は30分単位で見やすく表示し、10分単位の予約は枠内に時刻を表示します。</div>
+  <div class="notice">
+    スタッフ名の行をクリック → 開始時間と終了時間を選択 → 1つの「予約あり枠」として保存します。削除すると、長い枠でもまとめて消えます。
+  </div>
 
   <div class="schedule-wrap"><table class="schedule" id="scheduleTable"></table></div>
 
   <div class="legend">
     <span><i class="box free"></i> 空き</span>
-    <span><i class="box closed"></i> 予約あり（店舗停止）</span>
+    <span><i class="box manual"></i> 予約あり（店舗側）</span>
     <span><i class="box booked"></i> 予約あり（未確認）</span>
     <span><i class="box confirmed"></i> 確定済み</span>
     <span><i class="box offday"></i> 休み（今日だけ）</span>
@@ -188,19 +344,33 @@
       "22:00", "22:30", "23:00", "23:30", "24:00"
     ];
 
-    let state = { staff: defaultStaff, closedSlots: {}, indefiniteOffStaff: {}, bookings: [] };
+    let state = {
+      staff: defaultStaff,
+      closedSlots: {},
+      indefiniteOffStaff: {},
+      manualBlocks: [],
+      bookings: []
+    };
     let draggedStaffName = null;
+    let isDraggingStaff = false;
     let unsubscribeSettings = null;
     let unsubscribeBookings = null;
 
     function slotKey(date, staff, time) { return `${date}__${staff}__${time}`; }
     function setToday() { document.getElementById("managerDate").value = new Date().toISOString().split("T")[0]; }
     function getSelectedDate() { return document.getElementById("managerDate").value; }
+    function newId() { return `manual_${Date.now()}_${Math.random().toString(16).slice(2)}`; }
 
     async function ensureSettings() {
       const snap = await SETTINGS_DOC.get();
       if (!snap.exists) {
-        await SETTINGS_DOC.set({ staff: defaultStaff, closedSlots: {}, indefiniteOffStaff: {}, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+        await SETTINGS_DOC.set({
+          staff: defaultStaff,
+          closedSlots: {},
+          indefiniteOffStaff: {},
+          manualBlocks: [],
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
       }
     }
 
@@ -209,18 +379,26 @@
         staff: state.staff,
         closedSlots: state.closedSlots || {},
         indefiniteOffStaff: state.indefiniteOffStaff || {},
+        manualBlocks: state.manualBlocks || [],
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
     }
 
     function listenSettings() {
       if (unsubscribeSettings) unsubscribeSettings();
+
       unsubscribeSettings = SETTINGS_DOC.onSnapshot(async snap => {
-        if (!snap.exists) { await ensureSettings(); return; }
+        if (!snap.exists) {
+          await ensureSettings();
+          return;
+        }
+
         const data = snap.data() || {};
         state.staff = data.staff && data.staff.length ? data.staff : defaultStaff;
         state.closedSlots = data.closedSlots || {};
         state.indefiniteOffStaff = data.indefiniteOffStaff || {};
+        state.manualBlocks = data.manualBlocks || [];
+
         populateSelects();
         renderStaffList();
         renderSchedule();
@@ -229,23 +407,32 @@
 
     function listenBookings() {
       if (unsubscribeBookings) unsubscribeBookings();
+
       const date = getSelectedDate();
-      unsubscribeBookings = db.collection("bookings").where("date", "==", date).onSnapshot(snapshot => {
-        state.bookings = [];
-        snapshot.forEach(doc => {
-          const booking = doc.data();
-          if (booking.status === "cancelled") return;
-          state.bookings.push({ id: doc.id, ...booking });
+
+      unsubscribeBookings = db.collection("bookings")
+        .where("date", "==", date)
+        .onSnapshot(snapshot => {
+          state.bookings = [];
+
+          snapshot.forEach(doc => {
+            const booking = doc.data();
+            if (booking.status === "cancelled") return;
+            state.bookings.push({ id: doc.id, ...booking });
+          });
+
+          renderSchedule();
         });
-        renderSchedule();
-      });
     }
 
     function moveStaff(draggedName, targetName) {
       if (!draggedName || !targetName || draggedName === targetName) return;
+
       const fromIndex = state.staff.indexOf(draggedName);
       const toIndex = state.staff.indexOf(targetName);
+
       if (fromIndex < 0 || toIndex < 0) return;
+
       const [moved] = state.staff.splice(fromIndex, 1);
       state.staff.splice(toIndex, 0, moved);
       saveSettings();
@@ -259,6 +446,7 @@
 
       const startSelect = document.getElementById("bulkStart");
       const endSelect = document.getElementById("bulkEnd");
+
       if (!startSelect.options.length) {
         startSelect.innerHTML = displayTimeList.map(time => `<option value="${time}">${time}</option>`).join("");
         endSelect.innerHTML = displayTimeList.map(time => `<option value="${time}">${time}</option>`).join("");
@@ -270,6 +458,7 @@
     function renderStaffList() {
       const box = document.getElementById("staffListView");
       box.innerHTML = "";
+
       state.staff.forEach(staff => {
         const chip = document.createElement("div");
         chip.className = "staff-chip";
@@ -277,17 +466,42 @@
         chip.dataset.staff = staff;
         chip.innerHTML = `<span class="handle">☰</span><strong>${staff}</strong><button type="button">×</button>`;
 
-        chip.addEventListener("dragstart", () => { draggedStaffName = staff; chip.classList.add("dragging"); });
-        chip.addEventListener("dragend", () => { draggedStaffName = null; chip.classList.remove("dragging"); document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over")); });
-        chip.addEventListener("dragover", e => { e.preventDefault(); chip.classList.add("drag-over"); });
+        chip.addEventListener("dragstart", () => {
+          draggedStaffName = staff;
+          chip.classList.add("dragging");
+        });
+
+        chip.addEventListener("dragend", () => {
+          draggedStaffName = null;
+          chip.classList.remove("dragging");
+          document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over"));
+        });
+
+        chip.addEventListener("dragover", e => {
+          e.preventDefault();
+          chip.classList.add("drag-over");
+        });
+
         chip.addEventListener("dragleave", () => chip.classList.remove("drag-over"));
-        chip.addEventListener("drop", e => { e.preventDefault(); chip.classList.remove("drag-over"); moveStaff(draggedStaffName, staff); });
+
+        chip.addEventListener("drop", e => {
+          e.preventDefault();
+          chip.classList.remove("drag-over");
+          moveStaff(draggedStaffName, staff);
+        });
 
         chip.querySelector("button").addEventListener("click", e => {
           e.stopPropagation();
+
           if (!confirm(`${staff} を削除しますか？`)) return;
+
           state.staff = state.staff.filter(name => name !== staff);
-          Object.keys(state.closedSlots).forEach(key => { if (key.includes(`__${staff}__`)) delete state.closedSlots[key]; });
+
+          Object.keys(state.closedSlots).forEach(key => {
+            if (key.includes(`__${staff}__`)) delete state.closedSlots[key];
+          });
+
+          state.manualBlocks = state.manualBlocks.filter(block => block.staff !== staff);
           delete state.indefiniteOffStaff[staff];
           saveSettings();
         });
@@ -296,56 +510,221 @@
       });
     }
 
-    function isStaffIndefiniteOff(staff) { return !!state.indefiniteOffStaff[staff]; }
-    function isTodayOnlyOffAllDay(date, staff) { return !isStaffIndefiniteOff(staff) && timeList.every(time => state.closedSlots[slotKey(date, staff, time)]); }
-    function isStaffOffAllDay(date, staff) { return isStaffIndefiniteOff(staff) || timeList.every(time => state.closedSlots[slotKey(date, staff, time)]); }
+    function isStaffIndefiniteOff(staff) {
+      return !!state.indefiniteOffStaff[staff];
+    }
+
+    function isTodayOnlyOffAllDay(date, staff) {
+      return !isStaffIndefiniteOff(staff) && timeList.every(time => state.closedSlots[slotKey(date, staff, time)]);
+    }
+
+    function isStaffOffAllDay(date, staff) {
+      return isStaffIndefiniteOff(staff) || timeList.every(time => state.closedSlots[slotKey(date, staff, time)]);
+    }
 
     function getDisplaySubSlots(displayTime) {
       if (displayTime === "24:00") return ["24:00"];
+
       const index = timeList.indexOf(displayTime);
       if (index < 0) return [displayTime];
+
       return timeList.slice(index, index + 3);
+    }
+
+    function getTimeSlotsBetween(start, end) {
+      const startIndex = timeList.indexOf(start);
+      const endIndex = timeList.indexOf(end);
+
+      if (startIndex < 0 || endIndex < 0 || endIndex <= startIndex) return [];
+
+      return timeList.slice(startIndex, endIndex);
+    }
+
+    function hasIntersection(listA, listB) {
+      return listA.some(item => listB.includes(item));
+    }
+
+    function findManualBlock(date, staff, displayTime) {
+      const subSlots = getDisplaySubSlots(displayTime);
+
+      return (state.manualBlocks || []).find(block =>
+        block.date === date &&
+        block.staff === staff &&
+        hasIntersection(block.slots || [], subSlots)
+      ) || null;
     }
 
     function getGroupedBooking(date, staff, displayTime) {
       const subSlots = getDisplaySubSlots(displayTime);
+
       for (const booking of state.bookings) {
         if (booking.staff !== staff) continue;
+
         const requiredSlots = booking.requiredSlots || [];
         const match = subSlots.find(time => requiredSlots.includes(time));
-        if (match) return { booking, key: booking.id, time: booking.time || match };
+
+        if (match) {
+          return {
+            booking,
+            key: booking.id,
+            time: booking.time || match
+          };
+        }
       }
+
       return null;
     }
 
-    function isGroupedClosed(date, staff, displayTime) {
-      return getDisplaySubSlots(displayTime).some(time => state.closedSlots[slotKey(date, staff, time)]);
+    function isGroupedClosedLegacy(date, staff, displayTime) {
+      const subSlots = getDisplaySubSlots(displayTime);
+      return subSlots.some(time => state.closedSlots[slotKey(date, staff, time)]);
     }
 
-    function setGroupedClosed(date, staff, displayTime, isClosed) {
-      getDisplaySubSlots(displayTime).forEach(time => {
-        const hasBooking = state.bookings.some(booking => booking.staff === staff && (booking.requiredSlots || []).includes(time));
-        if (hasBooking) return;
-        const key = slotKey(date, staff, time);
-        if (isClosed) state.closedSlots[key] = true;
-        else delete state.closedSlots[key];
+    function addManualBlock(date, staff, start, end) {
+      const slots = getTimeSlotsBetween(start, end);
+
+      if (!slots.length) {
+        alert("終了時間は開始時間より後にしてください。");
+        return;
+      }
+
+      const hasCustomerBooking = state.bookings.some(booking =>
+        booking.date === date &&
+        booking.staff === staff &&
+        hasIntersection(booking.requiredSlots || [], slots)
+      );
+
+      if (hasCustomerBooking) {
+        alert("この時間にはお客様の予約があります。別の時間を選択してください。");
+        return;
+      }
+
+      const hasManualBlock = (state.manualBlocks || []).some(block =>
+        block.date === date &&
+        block.staff === staff &&
+        hasIntersection(block.slots || [], slots)
+      );
+
+      if (hasManualBlock) {
+        alert("この時間には店舗側の予約あり枠があります。");
+        return;
+      }
+
+      const block = {
+        id: newId(),
+        date,
+        staff,
+        start,
+        end,
+        slots,
+        type: "manual",
+        createdAt: new Date().toISOString()
+      };
+
+      state.manualBlocks.push(block);
+
+      slots.forEach(time => {
+        state.closedSlots[slotKey(date, staff, time)] = block.id;
       });
+
+      saveSettings();
+      closeModal();
     }
 
-    async function clearGroupedClosedSlot(date, staff, displayTime) {
+    function deleteManualBlock(blockId) {
+      const block = (state.manualBlocks || []).find(item => item.id === blockId);
+
+      if (!block) return;
+
+      (block.slots || []).forEach(time => {
+        delete state.closedSlots[slotKey(block.date, block.staff, time)];
+      });
+
+      state.manualBlocks = state.manualBlocks.filter(item => item.id !== blockId);
+      saveSettings();
+      closeModal();
+    }
+
+    function clearLegacyGroupedSlot(date, staff, displayTime) {
       getDisplaySubSlots(displayTime).forEach(time => {
         delete state.closedSlots[slotKey(date, staff, time)];
       });
 
-      await SETTINGS_DOC.set({
-        closedSlots: state.closedSlots || {},
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-
-      renderSchedule();
+      saveSettings();
+      closeModal();
     }
 
-    function showManualSlotDetail(date, staff, displayTime) {
+    function showCreateManualBlockModal(staff) {
+      const date = getSelectedDate();
+      const startOptions = timeList.slice(0, -1).map(time => `<option value="${time}">${time}</option>`).join("");
+      const endOptions = timeList.slice(1).map(time => `<option value="${time}">${time}</option>`).join("");
+
+      document.getElementById("modalTitle").textContent = "店舗側の予約あり枠を作成";
+      document.getElementById("modalBody").innerHTML = `
+        <p><strong>スタッフ：</strong>${staff}</p>
+        <p><strong>日付：</strong>${date}</p>
+        <p>開始時間と終了時間を選ぶと、長い時間でも1つの予約あり枠として保存されます。</p>
+        <div class="modal-grid">
+          <div class="field">
+            <label for="manualStart">開始時間</label>
+            <select id="manualStart">${startOptions}</select>
+          </div>
+          <div class="field">
+            <label for="manualEnd">終了時間</label>
+            <select id="manualEnd">${endOptions}</select>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("manualStart").value = "10:00";
+      document.getElementById("manualEnd").value = "10:30";
+
+      document.getElementById("modalActions").innerHTML = `
+        <button class="btn danger" id="createManualBlockBtn">予約あり枠を作成する</button>
+        <button class="btn gray" id="modalCloseBtn">閉じる</button>
+      `;
+
+      document.getElementById("manualStart").addEventListener("change", () => {
+        const start = document.getElementById("manualStart").value;
+        const startIndex = timeList.indexOf(start);
+        const endSelect = document.getElementById("manualEnd");
+
+        if (timeList.indexOf(endSelect.value) <= startIndex) {
+          endSelect.value = timeList[Math.min(startIndex + 3, timeList.length - 1)];
+        }
+      });
+
+      document.getElementById("createManualBlockBtn").addEventListener("click", () => {
+        const start = document.getElementById("manualStart").value;
+        const end = document.getElementById("manualEnd").value;
+        addManualBlock(date, staff, start, end);
+      });
+
+      document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+      document.getElementById("modalBackdrop").style.display = "flex";
+    }
+
+    function showManualBlockDetail(block) {
+      document.getElementById("modalTitle").textContent = "店舗側の予約あり枠";
+      document.getElementById("modalBody").innerHTML = `
+        <p><strong>スタッフ：</strong>${block.staff}</p>
+        <p><strong>日付：</strong>${block.date}</p>
+        <p><strong>時間：</strong>${block.start} 〜 ${block.end}</p>
+        <p><strong>対象：</strong>${(block.slots || []).join(" / ")}</p>
+        <p>この枠は1つの予約あり枠として保存されています。削除すると、全ての時間がまとめて空きになります。</p>
+      `;
+
+      document.getElementById("modalActions").innerHTML = `
+        <button class="btn danger" id="deleteManualBlockBtn">この予約あり枠をまとめて削除する</button>
+        <button class="btn gray" id="modalCloseBtn">閉じる</button>
+      `;
+
+      document.getElementById("deleteManualBlockBtn").addEventListener("click", () => deleteManualBlock(block.id));
+      document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+      document.getElementById("modalBackdrop").style.display = "flex";
+    }
+
+    function showLegacySlotDetail(date, staff, displayTime) {
       const subSlots = getDisplaySubSlots(displayTime);
 
       document.getElementById("modalTitle").textContent = "店舗側の予約あり枠";
@@ -354,25 +733,15 @@
         <p><strong>日付：</strong>${date}</p>
         <p><strong>時間枠：</strong>${displayTime}</p>
         <p><strong>対象：</strong>${subSlots.join(" / ")}</p>
-        <p>この枠は店舗側で手動で予約ありにしています。削除すると、お客様が予約できるようになります。</p>
+        <p>この枠は旧方式で保存された予約あり枠です。削除すると、この表示枠だけ空きになります。</p>
       `;
 
       document.getElementById("modalActions").innerHTML = `
-        <button class="btn danger" id="deleteManualSlotBtn">この予約あり枠を削除する</button>
-        <button class="btn green" id="openManualSlotBtn">この枠を開放する</button>
+        <button class="btn danger" id="deleteLegacySlotBtn">この表示枠を削除する</button>
         <button class="btn gray" id="modalCloseBtn">閉じる</button>
       `;
 
-      document.getElementById("deleteManualSlotBtn").addEventListener("click", async () => {
-        await clearGroupedClosedSlot(date, staff, displayTime);
-        closeModal();
-      });
-
-      document.getElementById("openManualSlotBtn").addEventListener("click", async () => {
-        await clearGroupedClosedSlot(date, staff, displayTime);
-        closeModal();
-      });
-
+      document.getElementById("deleteLegacySlotBtn").addEventListener("click", () => clearLegacyGroupedSlot(date, staff, displayTime));
       document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
       document.getElementById("modalBackdrop").style.display = "flex";
     }
@@ -380,6 +749,7 @@
     function renderSchedule() {
       const table = document.getElementById("scheduleTable");
       const date = getSelectedDate();
+
       let html = "<thead><tr><th class='staff-name'>スタッフ</th>";
       displayTimeList.forEach(time => html += `<th>${time}</th>`);
       html += "</tr></thead><tbody>";
@@ -390,25 +760,44 @@
         const offAllDay = isStaffOffAllDay(date, staff);
         const staffClass = indefiniteOff ? "indefinite-off" : (offAllDay ? "offday" : "");
         const offLabel = indefiniteOff ? "<br>無期限休み" : (todayOnlyOff ? "<br>休み" : "");
-        html += `<tr><td class="staff-name ${staffClass}" draggable="true" data-staff="${staff}">${staff}<span class="drag-mini">☰ drag</span>${offLabel}</td>`;
+
+        html += `<tr><td class="staff-name ${staffClass}" draggable="true" data-staff="${staff}">
+          ${staff}<span class="drag-mini">☰ drag</span><span class="click-mini">クリックで予約枠</span>${offLabel}
+        </td>`;
 
         displayTimeList.forEach(time => {
           const grouped = getGroupedBooking(date, staff, time);
-          const closed = isGroupedClosed(date, staff, time);
+          const manualBlock = findManualBlock(date, staff, time);
+          const legacyClosed = isGroupedClosedLegacy(date, staff, time);
+
           let cls = "slot";
           let label = "空き";
+
           if (grouped) {
             const status = grouped.booking.status || "pending";
             cls += status === "confirmed" ? " confirmed" : " booked";
-            label = status === "confirmed" ? `確定済み<br><small>${grouped.time}</small>` : `予約あり<br><small>${grouped.time}</small>`;
-          } else if (closed || indefiniteOff) {
-            if (indefiniteOff) { cls += " indefinite-off"; label = "休み"; }
-            else { cls += offAllDay ? " offday" : " closed"; label = offAllDay ? "休み" : "予約あり"; }
+            label = status === "confirmed"
+              ? `確定済み<br><small>${grouped.time}</small>`
+              : `予約あり<br><small>${grouped.time}</small>`;
+          } else if (manualBlock) {
+            cls += " manual";
+            label = `予約あり<br><small>${manualBlock.start}-${manualBlock.end}</small>`;
+          } else if (legacyClosed || indefiniteOff) {
+            if (indefiniteOff) {
+              cls += " indefinite-off";
+              label = "休み";
+            } else {
+              cls += offAllDay ? " offday" : " manual";
+              label = offAllDay ? "休み" : "予約あり";
+            }
           }
+
           html += `<td class="${cls}" data-staff="${staff}" data-time="${time}">${label}</td>`;
         });
+
         html += "</tr>";
       });
+
       html += "</tbody>";
       table.innerHTML = html;
       attachDragAndSlotEvents();
@@ -417,11 +806,37 @@
     function attachDragAndSlotEvents() {
       document.querySelectorAll(".staff-name[draggable='true']").forEach(cell => {
         const staff = cell.dataset.staff;
-        cell.addEventListener("dragstart", () => { draggedStaffName = staff; cell.classList.add("dragging"); });
-        cell.addEventListener("dragend", () => { draggedStaffName = null; cell.classList.remove("dragging"); document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over")); });
-        cell.addEventListener("dragover", e => { e.preventDefault(); cell.classList.add("drag-over"); });
+
+        cell.addEventListener("dragstart", () => {
+          draggedStaffName = staff;
+          isDraggingStaff = true;
+          cell.classList.add("dragging");
+        });
+
+        cell.addEventListener("dragend", () => {
+          draggedStaffName = null;
+          cell.classList.remove("dragging");
+          document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over"));
+          setTimeout(() => { isDraggingStaff = false; }, 80);
+        });
+
+        cell.addEventListener("dragover", e => {
+          e.preventDefault();
+          cell.classList.add("drag-over");
+        });
+
         cell.addEventListener("dragleave", () => cell.classList.remove("drag-over"));
-        cell.addEventListener("drop", e => { e.preventDefault(); cell.classList.remove("drag-over"); moveStaff(draggedStaffName, staff); });
+
+        cell.addEventListener("drop", e => {
+          e.preventDefault();
+          cell.classList.remove("drag-over");
+          moveStaff(draggedStaffName, staff);
+        });
+
+        cell.addEventListener("click", () => {
+          if (isDraggingStaff) return;
+          showCreateManualBlockModal(staff);
+        });
       });
 
       document.querySelectorAll(".slot").forEach(slot => {
@@ -430,8 +845,15 @@
           const staff = slot.dataset.staff;
           const time = slot.dataset.time;
           const grouped = getGroupedBooking(date, staff, time);
+          const manualBlock = findManualBlock(date, staff, time);
+
           if (grouped) {
             showBookingDetail(grouped.booking);
+            return;
+          }
+
+          if (manualBlock) {
+            showManualBlockDetail(manualBlock);
             return;
           }
 
@@ -440,15 +862,17 @@
             return;
           }
 
-          const closed = isGroupedClosed(date, staff, time);
-
-          if (closed) {
-            showManualSlotDetail(date, staff, time);
+          if (isGroupedClosedLegacy(date, staff, time)) {
+            showLegacySlotDetail(date, staff, time);
             return;
           }
 
-          setGroupedClosed(date, staff, time, true);
-          saveSettings();
+          // 空き枠を直接クリックした場合は、30分枠の予約ありを1つのブロックとして作る
+          const subSlots = getDisplaySubSlots(time);
+          const start = subSlots[0];
+          const afterIndex = Math.min(timeList.indexOf(subSlots[subSlots.length - 1]) + 1, timeList.length - 1);
+          const end = timeList[afterIndex] || time;
+          addManualBlock(date, staff, start, end);
         });
       });
     }
@@ -456,8 +880,17 @@
     function addStaff() {
       const input = document.getElementById("newStaffName");
       const name = input.value.trim();
-      if (!name) { alert("スタッフ名を入力してください。"); return; }
-      if (state.staff.includes(name)) { alert("同じスタッフ名があります。"); return; }
+
+      if (!name) {
+        alert("スタッフ名を入力してください。");
+        return;
+      }
+
+      if (state.staff.includes(name)) {
+        alert("同じスタッフ名があります。");
+        return;
+      }
+
       state.staff.push(name);
       input.value = "";
       saveSettings();
@@ -468,31 +901,60 @@
       const end = document.getElementById("bulkEnd").value;
       const startIndex = displayTimeList.indexOf(start);
       const endIndex = displayTimeList.indexOf(end);
-      if (startIndex < 0 || endIndex < 0 || startIndex > endIndex) { alert("時間の指定を確認してください。"); return []; }
-      return displayTimeList.slice(startIndex, endIndex + 1);
+
+      if (startIndex < 0 || endIndex < 0 || startIndex > endIndex) {
+        alert("時間の指定を確認してください。");
+        return null;
+      }
+
+      const endExclusive = displayTimeList[Math.min(endIndex + 1, displayTimeList.length - 1)];
+      return { start, end: endExclusive };
     }
 
     function setRangeClosed(isClosed) {
       const date = getSelectedDate();
       const staff = document.getElementById("bulkStaff").value;
-      getTimeRange().forEach(time => setGroupedClosed(date, staff, time, isClosed));
-      saveSettings();
+      const range = getTimeRange();
+
+      if (!range) return;
+
+      if (isClosed) {
+        addManualBlock(date, staff, range.start, range.end);
+      } else {
+        const slots = getTimeSlotsBetween(range.start, range.end);
+
+        (state.manualBlocks || [])
+          .filter(block => block.date === date && block.staff === staff && hasIntersection(block.slots || [], slots))
+          .forEach(block => deleteManualBlock(block.id));
+
+        slots.forEach(time => delete state.closedSlots[slotKey(date, staff, time)]);
+        saveSettings();
+      }
     }
 
     function setStaffOffToday() {
       const date = getSelectedDate();
       const staff = document.getElementById("bulkStaff").value;
+
       delete state.indefiniteOffStaff[staff];
+
       timeList.forEach(time => {
-        const hasBooking = state.bookings.some(booking => booking.staff === staff && (booking.requiredSlots || []).includes(time));
+        const hasBooking = state.bookings.some(booking =>
+          booking.staff === staff &&
+          (booking.requiredSlots || []).includes(time)
+        );
+
         if (!hasBooking) state.closedSlots[slotKey(date, staff, time)] = true;
       });
+
       saveSettings();
     }
 
     function setStaffOffIndefinite() {
       const staff = document.getElementById("bulkStaff").value;
+
       if (!confirm(`${staff} を無期限で休みにしますか？開放するまで全ての日付で予約できません。`)) return;
+
       state.indefiniteOffStaff[staff] = true;
       saveSettings();
     }
@@ -500,25 +962,40 @@
     function setStaffOn() {
       const date = getSelectedDate();
       const staff = document.getElementById("bulkStaff").value;
+
       delete state.indefiniteOffStaff[staff];
+
       timeList.forEach(time => delete state.closedSlots[slotKey(date, staff, time)]);
+
+      state.manualBlocks = (state.manualBlocks || []).filter(block => !(block.date === date && block.staff === staff));
       saveSettings();
     }
 
     function resetDayClosedSlots() {
       const date = getSelectedDate();
+
       if (!confirm(`${date} の店舗側で作った予約あり枠を全部クリアしますか？お客様の予約は消えません。`)) return;
-      Object.keys(state.closedSlots).forEach(key => { if (key.startsWith(`${date}__`)) delete state.closedSlots[key]; });
+
+      Object.keys(state.closedSlots).forEach(key => {
+        if (key.startsWith(`${date}__`)) delete state.closedSlots[key];
+      });
+
+      state.manualBlocks = (state.manualBlocks || []).filter(block => block.date !== date);
       saveSettings();
     }
 
     async function confirmBooking(bookingId) {
-      await db.collection("bookings").doc(bookingId).update({ status: "confirmed", confirmedAt: firebase.firestore.FieldValue.serverTimestamp() });
+      await db.collection("bookings").doc(bookingId).update({
+        status: "confirmed",
+        confirmedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
       closeModal();
     }
 
     async function deleteBooking(bookingId) {
       if (!confirm("この予約を削除しますか？キャンセル・予約間違いの場合に使ってください。")) return;
+
       await db.collection("bookings").doc(bookingId).delete();
       closeModal();
     }
@@ -526,6 +1003,7 @@
     function showBookingDetail(booking) {
       const slotTimes = booking.requiredSlots || [];
       const status = booking.status === "confirmed" ? "確定済み" : "未確認";
+
       document.getElementById("modalTitle").textContent = "予約詳細";
       document.getElementById("modalBody").innerHTML = `
         <p><strong>状態：</strong>${status}</p>
@@ -538,18 +1016,22 @@
         <p><strong>人数：</strong>${booking.people || ""}</p>
         <p><strong>メッセージ：</strong>${booking.message || "なし"}</p>
       `;
+
       document.getElementById("modalActions").innerHTML = `
         <button class="btn green" id="confirmBookingBtn">予約を確定する</button>
         <button class="btn danger" id="deleteBookingBtn">予約を削除する</button>
         <button class="btn gray" id="modalCloseBtn">閉じる</button>
       `;
+
       document.getElementById("confirmBookingBtn").addEventListener("click", () => confirmBooking(booking.id));
       document.getElementById("deleteBookingBtn").addEventListener("click", () => deleteBooking(booking.id));
       document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
       document.getElementById("modalBackdrop").style.display = "flex";
     }
 
-    function closeModal() { document.getElementById("modalBackdrop").style.display = "none"; }
+    function closeModal() {
+      document.getElementById("modalBackdrop").style.display = "none";
+    }
 
     document.getElementById("addStaffBtn").addEventListener("click", addStaff);
     document.getElementById("newStaffName").addEventListener("keydown", e => { if (e.key === "Enter") addStaff(); });
