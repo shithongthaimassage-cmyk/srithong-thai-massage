@@ -135,7 +135,7 @@
     <button class="btn green" id="staffOnBtn">このスタッフを開放</button>
   </section>
 
-  <div class="notice">Firebase接続済みです。予約あり枠をクリックすると、詳細確認・開放・削除ができます。管理画面は30分単位で見やすく表示し、10分単位の予約は枠内に時刻を表示します。</div>
+  <div class="notice">Firebase接続済みです。店舗側で作った予約あり枠はクリックだけで「予約あり / 空き」を切り替えできます。お客様の予約あり枠はクリックすると詳細・確定・削除ができます。</div>
 
   <div class="schedule-wrap"><table class="schedule" id="scheduleTable"></table></div>
 
@@ -332,40 +332,6 @@
       });
     }
 
-    function clearGroupedClosedSlot(date, staff, displayTime) {
-      getDisplaySubSlots(displayTime).forEach(time => {
-        delete state.closedSlots[slotKey(date, staff, time)];
-      });
-
-      return saveSettings();
-    }
-
-    function showManualSlotDetail(date, staff, displayTime) {
-      const subSlots = getDisplaySubSlots(displayTime);
-
-      document.getElementById("modalTitle").textContent = "店舗側の予約あり枠";
-      document.getElementById("modalBody").innerHTML = `
-        <p><strong>スタッフ：</strong>${staff}</p>
-        <p><strong>日付：</strong>${date}</p>
-        <p><strong>時間枠：</strong>${displayTime}</p>
-        <p><strong>対象：</strong>${subSlots.join(" / ")}</p>
-        <p>この枠は店舗側で手動で予約ありにしています。開放すると、お客様が予約できるようになります。</p>
-      `;
-
-      document.getElementById("modalActions").innerHTML = `
-        <button class="btn green" id="openManualSlotBtn">この枠を開放する</button>
-        <button class="btn gray" id="modalCloseBtn">閉じる</button>
-      `;
-
-      document.getElementById("openManualSlotBtn").addEventListener("click", async () => {
-        await clearGroupedClosedSlot(date, staff, displayTime);
-        closeModal();
-      });
-
-      document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
-      document.getElementById("modalBackdrop").style.display = "flex";
-    }
-
     function renderSchedule() {
       const table = document.getElementById("scheduleTable");
       const date = getSelectedDate();
@@ -432,11 +398,11 @@
           const closed = isGroupedClosed(date, staff, time);
 
           if (closed) {
-            showManualSlotDetail(date, staff, time);
-            return;
+            setGroupedClosed(date, staff, time, false);
+          } else {
+            setGroupedClosed(date, staff, time, true);
           }
 
-          setGroupedClosed(date, staff, time, true);
           saveSettings();
         });
       });
