@@ -19,342 +19,64 @@
       --bg: #f4f6f8;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; background: var(--bg); color: #222; }
+    button, input, select { font: inherit; }
 
-    body {
-      font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-      background: var(--bg);
-      color: #222;
-    }
+    .manager-header { background: linear-gradient(135deg, var(--brown-deep), var(--brown)); color: var(--cream); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .manager-header h1 { font-size: 22px; }
+    .manager-header a { color: #2a1506; background: var(--gold-light); padding: 9px 16px; border-radius: 999px; text-decoration: none; font-weight: bold; }
 
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
+    .toolbar, .control-panel { padding: 16px 24px; background: #fff; border-bottom: 1px solid #ddd; display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
+    .control-panel { align-items: stretch; }
+    .field { display: grid; gap: 5px; min-width: 150px; }
+    .field label { font-size: 12px; font-weight: bold; color: #5a3518; }
+    .field input, .field select { padding: 10px 12px; border-radius: 9px; border: 1px solid #ccc; min-height: 42px; background: #fff; }
 
-    .manager-header {
-      background: linear-gradient(135deg, var(--brown-deep), var(--brown));
-      color: var(--cream);
-      padding: 18px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+    .btn { border: 0; border-radius: 9px; padding: 10px 14px; min-height: 42px; font-weight: bold; cursor: pointer; color: white; background: var(--brown); }
+    .btn.gold { color: #2a1506; background: var(--gold); }
+    .btn.green { background: var(--green); }
+    .btn.gray { background: var(--gray); }
+    .btn.danger { background: var(--danger); }
 
-    .manager-header h1 {
-      font-size: 22px;
-    }
+    .staff-panel { padding: 16px 24px; background: #fffaf0; border-bottom: 1px solid #e6d3a6; display: grid; grid-template-columns: 1fr 1.35fr; gap: 18px; }
+    .panel-card { background: #fff; border: 1px solid #ead7a8; border-radius: 16px; padding: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+    .panel-card h2 { color: #5a3518; font-size: 18px; margin-bottom: 8px; }
+    .panel-card .hint { color: #7a5a2e; font-size: 13px; margin-bottom: 12px; }
+    .staff-list { display: flex; flex-wrap: wrap; gap: 8px; min-height: 42px; }
+    .staff-chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #ddd; border-radius: 999px; background: #fff; padding: 7px 9px 7px 12px; cursor: grab; user-select: none; }
+    .staff-chip.dragging { opacity: 0.45; cursor: grabbing; }
+    .staff-chip.drag-over { outline: 3px solid rgba(214, 168, 67, 0.45); }
+    .staff-chip .handle { color: #9a7a32; font-weight: bold; }
+    .staff-chip strong { color: #3a210f; }
+    .staff-chip button { border: 0; width: 24px; height: 24px; border-radius: 50%; background: #eee; color: var(--danger); cursor: pointer; font-weight: bold; }
+    .add-staff-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .add-staff-row input { flex: 1; min-width: 180px; padding: 10px 12px; border-radius: 9px; border: 1px solid #ccc; }
 
-    .manager-header a {
-      color: #2a1506;
-      background: var(--gold-light);
-      padding: 9px 16px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+    .notice { padding: 12px 24px; background: #fff3d6; border-bottom: 1px solid #e2c36b; color: #5a3518; font-size: 14px; }
+    .schedule-wrap { padding: 20px 24px; overflow-x: auto; }
+    .schedule { min-width: 1200px; border-collapse: collapse; background: white; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+    .schedule th, .schedule td { border: 1px solid #ddd; text-align: center; min-width: 92px; height: 50px; font-size: 13px; }
+    .schedule th { background: #2d180a; color: var(--gold-light); position: sticky; top: 0; z-index: 2; }
+    .staff-name { background: var(--cream); color: #3a210f; font-weight: bold; min-width: 150px !important; position: sticky; left: 0; z-index: 1; cursor: grab; user-select: none; }
+    .staff-name.dragging { opacity: 0.55; cursor: grabbing; }
+    .staff-name.drag-over { outline: 3px solid rgba(214, 168, 67, 0.55); }
+    .staff-name.offday { background: #e5e7eb; color: #555; }
+    .staff-name.indefinite-off { background: #4b5563; color: #fff; }
+    .drag-mini { display: block; font-size: 11px; color: #8a5d2e; margin-top: 2px; }
 
-    .toolbar,
-    .control-panel {
-      padding: 16px 24px;
-      background: #fff;
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      gap: 12px;
-      align-items: end;
-      flex-wrap: wrap;
-    }
+    .slot { cursor: pointer; background: #fff; transition: 0.15s; }
+    .slot:hover { background: #fff3d6; transform: scale(1.02); }
+    .slot.closed { background: #999; color: white; font-weight: bold; }
+    .slot.booked { background: var(--gold); color: #2a1506; font-weight: bold; }
+    .slot.confirmed { background: var(--confirmed); color: #fff; font-weight: bold; }
+    .slot.offday { background: #d1d5db; color: #555; font-weight: bold; }
+    .slot.indefinite-off { background: #4b5563; color: #fff; font-weight: bold; }
+    .slot small { display: block; font-size: 11px; margin-top: 2px; opacity: 0.85; }
 
-    .control-panel {
-      align-items: stretch;
-    }
-
-    .field {
-      display: grid;
-      gap: 5px;
-      min-width: 150px;
-    }
-
-    .field label {
-      font-size: 12px;
-      font-weight: bold;
-      color: #5a3518;
-    }
-
-    .field input,
-    .field select {
-      padding: 10px 12px;
-      border-radius: 9px;
-      border: 1px solid #ccc;
-      min-height: 42px;
-      background: #fff;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 9px;
-      padding: 10px 14px;
-      min-height: 42px;
-      font-weight: bold;
-      cursor: pointer;
-      color: white;
-      background: var(--brown);
-    }
-
-    .btn.gold {
-      color: #2a1506;
-      background: var(--gold);
-    }
-
-    .btn.green {
-      background: var(--green);
-    }
-
-    .btn.gray {
-      background: var(--gray);
-    }
-
-    .btn.danger {
-      background: var(--danger);
-    }
-
-    .staff-panel {
-      padding: 16px 24px;
-      background: #fffaf0;
-      border-bottom: 1px solid #e6d3a6;
-      display: grid;
-      grid-template-columns: 1fr 1.35fr;
-      gap: 18px;
-    }
-
-    .panel-card {
-      background: #fff;
-      border: 1px solid #ead7a8;
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-    }
-
-    .panel-card h2 {
-      color: #5a3518;
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-
-    .panel-card .hint {
-      color: #7a5a2e;
-      font-size: 13px;
-      margin-bottom: 12px;
-    }
-
-    .staff-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      min-height: 42px;
-    }
-
-    .staff-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      border: 1px solid #ddd;
-      border-radius: 999px;
-      background: #fff;
-      padding: 7px 9px 7px 12px;
-      cursor: grab;
-      user-select: none;
-    }
-
-    .staff-chip.dragging {
-      opacity: 0.45;
-      cursor: grabbing;
-    }
-
-    .staff-chip.drag-over {
-      outline: 3px solid rgba(214, 168, 67, 0.45);
-    }
-
-    .staff-chip .handle {
-      color: #9a7a32;
-      font-weight: bold;
-    }
-
-    .staff-chip strong {
-      color: #3a210f;
-    }
-
-    .staff-chip button {
-      border: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #eee;
-      color: var(--danger);
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .add-staff-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .add-staff-row input {
-      flex: 1;
-      min-width: 180px;
-      padding: 10px 12px;
-      border-radius: 9px;
-      border: 1px solid #ccc;
-    }
-
-    .notice {
-      padding: 12px 24px;
-      background: #fff3d6;
-      border-bottom: 1px solid #e2c36b;
-      color: #5a3518;
-      font-size: 14px;
-    }
-
-    .schedule-wrap {
-      padding: 20px 24px;
-      overflow-x: auto;
-    }
-
-    .schedule {
-      min-width: 1200px;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    }
-
-    .schedule th,
-    .schedule td {
-      border: 1px solid #ddd;
-      text-align: center;
-      min-width: 92px;
-      height: 50px;
-      font-size: 13px;
-    }
-
-    .schedule th {
-      background: #2d180a;
-      color: var(--gold-light);
-      position: sticky;
-      top: 0;
-      z-index: 2;
-    }
-
-    .staff-name {
-      background: var(--cream);
-      color: #3a210f;
-      font-weight: bold;
-      min-width: 150px !important;
-      position: sticky;
-      left: 0;
-      z-index: 1;
-      cursor: grab;
-      user-select: none;
-    }
-
-    .staff-name.dragging {
-      opacity: 0.55;
-      cursor: grabbing;
-    }
-
-    .staff-name.drag-over {
-      outline: 3px solid rgba(214, 168, 67, 0.55);
-    }
-
-    .staff-name.offday {
-      background: #e5e7eb;
-      color: #555;
-    }
-
-    .drag-mini {
-      display: block;
-      font-size: 11px;
-      color: #8a5d2e;
-      margin-top: 2px;
-    }
-
-    .slot {
-      cursor: pointer;
-      background: #fff;
-      transition: 0.15s;
-    }
-
-    .slot:hover {
-      background: #fff3d6;
-      transform: scale(1.02);
-    }
-
-    .slot.closed {
-      background: #999;
-      color: white;
-      font-weight: bold;
-    }
-
-    .slot.booked {
-      background: var(--gold);
-      color: #2a1506;
-      font-weight: bold;
-    }
-
-    .slot.confirmed {
-      background: var(--confirmed);
-      color: #fff;
-      font-weight: bold;
-    }
-
-    .slot.offday {
-      background: #d1d5db;
-      color: #555;
-      font-weight: bold;
-    }
-
-    .slot small {
-      display: block;
-      font-size: 11px;
-      margin-top: 2px;
-      opacity: 0.85;
-    }
-
-    .slot.indefinite-off {
-      background: #4b5563;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    .legend {
-      padding: 0 24px 22px;
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      font-size: 14px;
-    }
-
-    .legend span {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .box {
-      width: 18px;
-      height: 18px;
-      border: 1px solid #ccc;
-    }
-
+    .legend { padding: 0 24px 22px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 14px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .box { width: 18px; height: 18px; border: 1px solid #ccc; }
     .box.free { background: white; }
     .box.closed { background: #999; }
     .box.booked { background: var(--gold); }
@@ -362,57 +84,16 @@
     .box.offday { background: #d1d5db; }
     .box.indefinite-off { background: #4b5563; }
 
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal {
-      width: min(560px, 100%);
-      background: #fff;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 20px 80px rgba(0,0,0,0.32);
-    }
-
-    .modal h3 {
-      color: #5a3518;
-      margin-bottom: 12px;
-    }
-
-    .modal p {
-      margin-bottom: 8px;
-      line-height: 1.6;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      margin-top: 18px;
-    }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
+    .modal { width: min(560px, 100%); background: #fff; border-radius: 18px; padding: 20px; box-shadow: 0 20px 80px rgba(0,0,0,0.32); }
+    .modal h3 { color: #5a3518; margin-bottom: 12px; }
+    .modal p { margin-bottom: 8px; line-height: 1.6; }
+    .modal-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; margin-top: 18px; }
 
     @media (max-width: 900px) {
-      .staff-panel {
-        grid-template-columns: 1fr;
-      }
-
-      .toolbar,
-      .control-panel {
-        align-items: stretch;
-      }
-
-      .field,
-      .btn {
-        width: 100%;
-      }
+      .staff-panel { grid-template-columns: 1fr; }
+      .toolbar, .control-panel { align-items: stretch; }
+      .field, .btn { width: 100%; }
     }
   </style>
 </head>
@@ -424,10 +105,7 @@
   </header>
 
   <div class="toolbar">
-    <div class="field">
-      <label for="managerDate">日付</label>
-      <input type="date" id="managerDate">
-    </div>
+    <div class="field"><label for="managerDate">日付</label><input type="date" id="managerDate"></div>
     <button class="btn gold" id="todayBtn">今日</button>
     <button class="btn" id="refreshBtn">更新</button>
     <button class="btn gray" id="resetDayBtn">この日の予約あり（店舗停止）を全部クリア</button>
@@ -437,35 +115,19 @@
     <div class="panel-card">
       <h2>スタッフ追加</h2>
       <p class="hint">スタッフ名を追加できます。</p>
-      <div class="add-staff-row">
-        <input id="newStaffName" type="text" placeholder="例：Mali">
-        <button class="btn green" id="addStaffBtn">スタッフ追加</button>
-      </div>
+      <div class="add-staff-row"><input id="newStaffName" type="text" placeholder="例：Mali"><button class="btn green" id="addStaffBtn">スタッフ追加</button></div>
     </div>
-
     <div class="panel-card">
       <h2>スタッフ一覧・削除・並び替え</h2>
-      <p class="hint">名前をドラッグすると順番を変更できます。</p>
+      <p class="hint">名前をドラッグすると順番を変更できます。変更は全端末に反映されます。</p>
       <div class="staff-list" id="staffListView"></div>
     </div>
   </section>
 
   <section class="control-panel">
-    <div class="field">
-      <label for="bulkStaff">対象スタッフ</label>
-      <select id="bulkStaff"></select>
-    </div>
-
-    <div class="field">
-      <label for="bulkStart">開始時間</label>
-      <select id="bulkStart"></select>
-    </div>
-
-    <div class="field">
-      <label for="bulkEnd">終了時間</label>
-      <select id="bulkEnd"></select>
-    </div>
-
+    <div class="field"><label for="bulkStaff">対象スタッフ</label><select id="bulkStaff"></select></div>
+    <div class="field"><label for="bulkStart">開始時間</label><select id="bulkStart"></select></div>
+    <div class="field"><label for="bulkEnd">終了時間</label><select id="bulkEnd"></select></div>
     <button class="btn danger" id="closeRangeBtn">指定時間を予約ありにする</button>
     <button class="btn green" id="openRangeBtn">指定時間を開放</button>
     <button class="btn danger" id="staffOffTodayBtn">今日だけ休みにする</button>
@@ -473,13 +135,9 @@
     <button class="btn green" id="staffOnBtn">このスタッフを開放</button>
   </section>
 
-  <div class="notice">
-    空き枠をクリックすると「予約あり / 空き」を切り替えできます。休みボタンは「今日だけ」と「無期限」を選べます。予約ありをクリックすると詳細・確定・削除ができます。スタッフ名はドラッグで順番変更できます。予約が入ると約3秒ごとに自動更新します。管理画面は見やすいように30分単位で表示します。10分単位の予約は枠内に時刻も表示します。
-  </div>
+  <div class="notice">Firebase接続済みです。別のPC・スマホでも同じスタッフ/予約情報が表示されます。管理画面は30分単位で見やすく表示し、10分単位の予約は枠内に時刻を表示します。</div>
 
-  <div class="schedule-wrap">
-    <table class="schedule" id="scheduleTable"></table>
-  </div>
+  <div class="schedule-wrap"><table class="schedule" id="scheduleTable"></table></div>
 
   <div class="legend">
     <span><i class="box free"></i> 空き</span>
@@ -494,15 +152,17 @@
     <div class="modal">
       <h3 id="modalTitle">詳細</h3>
       <div id="modalBody"></div>
-      <div class="modal-actions" id="modalActions">
-        <button class="btn gray" id="modalCloseBtn">閉じる</button>
-      </div>
+      <div class="modal-actions" id="modalActions"><button class="btn gray" id="modalCloseBtn">閉じる</button></div>
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
   <script>
-    const STORAGE_KEY = "srithong_manager_v1";
-    const defaultStaff = ["WANGNA", "Yume", "Tukta", "Patty", "Kathe", "Dee", "Aiko", "Bella"];
+    const SETTINGS_DOC = db.collection("settings").doc("main");
+    const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
     const timeList = [
       "10:00", "10:10", "10:20", "10:30", "10:40", "10:50",
       "11:00", "11:10", "11:20", "11:30", "11:40", "11:50",
@@ -520,7 +180,6 @@
       "23:00", "23:10", "23:20", "23:30", "23:40", "23:50",
       "24:00"
     ];
-
     const displayTimeList = [
       "10:00", "10:30", "11:00", "11:30", "12:00", "12:30",
       "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
@@ -529,206 +188,154 @@
       "22:00", "22:30", "23:00", "23:30", "24:00"
     ];
 
-    let state = loadState();
+    let state = { staff: defaultStaff, closedSlots: {}, indefiniteOffStaff: {}, bookings: [] };
     let draggedStaffName = null;
+    let unsubscribeSettings = null;
+    let unsubscribeBookings = null;
 
-    function loadState() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          if (!data.staff) data.staff = defaultStaff;
-          if (!data.closedSlots) data.closedSlots = {};
-          if (!data.bookings) data.bookings = {};
-          if (!data.indefiniteOffStaff) data.indefiniteOffStaff = {};
-          return data;
-        } catch (e) {
-          console.error(e);
-        }
+    function slotKey(date, staff, time) { return `${date}__${staff}__${time}`; }
+    function setToday() { document.getElementById("managerDate").value = new Date().toISOString().split("T")[0]; }
+    function getSelectedDate() { return document.getElementById("managerDate").value; }
+
+    async function ensureSettings() {
+      const snap = await SETTINGS_DOC.get();
+      if (!snap.exists) {
+        await SETTINGS_DOC.set({ staff: defaultStaff, closedSlots: {}, indefiniteOffStaff: {}, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
       }
-
-      return {
-        staff: defaultStaff,
-        closedSlots: {},
-        bookings: {},
-        indefiniteOffStaff: {}
-      };
     }
 
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    function saveSettings() {
+      return SETTINGS_DOC.set({
+        staff: state.staff,
+        closedSlots: state.closedSlots || {},
+        indefiniteOffStaff: state.indefiniteOffStaff || {},
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
     }
 
-    function getSelectedDate() {
-      return document.getElementById("managerDate").value;
+    function listenSettings() {
+      if (unsubscribeSettings) unsubscribeSettings();
+      unsubscribeSettings = SETTINGS_DOC.onSnapshot(async snap => {
+        if (!snap.exists) { await ensureSettings(); return; }
+        const data = snap.data() || {};
+        state.staff = data.staff && data.staff.length ? data.staff : defaultStaff;
+        state.closedSlots = data.closedSlots || {};
+        state.indefiniteOffStaff = data.indefiniteOffStaff || {};
+        populateSelects();
+        renderStaffList();
+        renderSchedule();
+      });
     }
 
-    function slotKey(date, staff, time) {
-      return `${date}__${staff}__${time}`;
-    }
-
-    function setToday() {
-      const today = new Date().toISOString().split("T")[0];
-      document.getElementById("managerDate").value = today;
+    function listenBookings() {
+      if (unsubscribeBookings) unsubscribeBookings();
+      const date = getSelectedDate();
+      unsubscribeBookings = db.collection("bookings").where("date", "==", date).onSnapshot(snapshot => {
+        state.bookings = [];
+        snapshot.forEach(doc => {
+          const booking = doc.data();
+          if (booking.status === "cancelled") return;
+          state.bookings.push({ id: doc.id, ...booking });
+        });
+        renderSchedule();
+      });
     }
 
     function moveStaff(draggedName, targetName) {
       if (!draggedName || !targetName || draggedName === targetName) return;
-
       const fromIndex = state.staff.indexOf(draggedName);
       const toIndex = state.staff.indexOf(targetName);
-
       if (fromIndex < 0 || toIndex < 0) return;
-
       const [moved] = state.staff.splice(fromIndex, 1);
       state.staff.splice(toIndex, 0, moved);
-
-      saveState();
-      refreshAll();
+      saveSettings();
     }
 
     function populateSelects() {
       const staffSelect = document.getElementById("bulkStaff");
+      const currentStaff = staffSelect.value;
       staffSelect.innerHTML = state.staff.map(staff => `<option value="${staff}">${staff}</option>`).join("");
+      if (state.staff.includes(currentStaff)) staffSelect.value = currentStaff;
 
       const startSelect = document.getElementById("bulkStart");
       const endSelect = document.getElementById("bulkEnd");
-
-      startSelect.innerHTML = displayTimeList.map(time => `<option value="${time}">${time}</option>`).join("");
-      endSelect.innerHTML = displayTimeList.map(time => `<option value="${time}">${time}</option>`).join("");
-
-      startSelect.value = "10:00";
-      endSelect.value = "23:30";
+      if (!startSelect.options.length) {
+        startSelect.innerHTML = displayTimeList.map(time => `<option value="${time}">${time}</option>`).join("");
+        endSelect.innerHTML = displayTimeList.map(time => `<option value="${time}">${time}</option>`).join("");
+        startSelect.value = "10:00";
+        endSelect.value = "24:00";
+      }
     }
 
     function renderStaffList() {
       const box = document.getElementById("staffListView");
       box.innerHTML = "";
-
       state.staff.forEach(staff => {
         const chip = document.createElement("div");
         chip.className = "staff-chip";
         chip.draggable = true;
         chip.dataset.staff = staff;
-        chip.innerHTML = `<span class="handle">☰</span><strong>${staff}</strong><button type="button" aria-label="delete">×</button>`;
+        chip.innerHTML = `<span class="handle">☰</span><strong>${staff}</strong><button type="button">×</button>`;
 
-        chip.addEventListener("dragstart", () => {
-          draggedStaffName = staff;
-          chip.classList.add("dragging");
-        });
-
-        chip.addEventListener("dragend", () => {
-          draggedStaffName = null;
-          chip.classList.remove("dragging");
-          document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over"));
-        });
-
-        chip.addEventListener("dragover", e => {
-          e.preventDefault();
-          chip.classList.add("drag-over");
-        });
-
-        chip.addEventListener("dragleave", () => {
-          chip.classList.remove("drag-over");
-        });
-
-        chip.addEventListener("drop", e => {
-          e.preventDefault();
-          chip.classList.remove("drag-over");
-          moveStaff(draggedStaffName, staff);
-        });
+        chip.addEventListener("dragstart", () => { draggedStaffName = staff; chip.classList.add("dragging"); });
+        chip.addEventListener("dragend", () => { draggedStaffName = null; chip.classList.remove("dragging"); document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over")); });
+        chip.addEventListener("dragover", e => { e.preventDefault(); chip.classList.add("drag-over"); });
+        chip.addEventListener("dragleave", () => chip.classList.remove("drag-over"));
+        chip.addEventListener("drop", e => { e.preventDefault(); chip.classList.remove("drag-over"); moveStaff(draggedStaffName, staff); });
 
         chip.querySelector("button").addEventListener("click", e => {
           e.stopPropagation();
           if (!confirm(`${staff} を削除しますか？`)) return;
           state.staff = state.staff.filter(name => name !== staff);
-
-          Object.keys(state.closedSlots).forEach(key => {
-            if (key.includes(`__${staff}__`)) delete state.closedSlots[key];
-          });
-
-          Object.keys(state.bookings).forEach(key => {
-            if (key.includes(`__${staff}__`)) delete state.bookings[key];
-          });
-
+          Object.keys(state.closedSlots).forEach(key => { if (key.includes(`__${staff}__`)) delete state.closedSlots[key]; });
           delete state.indefiniteOffStaff[staff];
-
-          saveState();
-          refreshAll();
+          saveSettings();
         });
 
         box.appendChild(chip);
       });
     }
 
-    function isStaffIndefiniteOff(staff) {
-      return !!state.indefiniteOffStaff[staff];
-    }
-
-    function isStaffOffAllDay(date, staff) {
-      return isStaffIndefiniteOff(staff) || timeList.every(time => state.closedSlots[slotKey(date, staff, time)]);
-    }
-
-    function isTodayOnlyOffAllDay(date, staff) {
-      return !isStaffIndefiniteOff(staff) && timeList.every(time => state.closedSlots[slotKey(date, staff, time)]);
-    }
-
+    function isStaffIndefiniteOff(staff) { return !!state.indefiniteOffStaff[staff]; }
+    function isTodayOnlyOffAllDay(date, staff) { return !isStaffIndefiniteOff(staff) && timeList.every(time => state.closedSlots[slotKey(date, staff, time)]); }
+    function isStaffOffAllDay(date, staff) { return isStaffIndefiniteOff(staff) || timeList.every(time => state.closedSlots[slotKey(date, staff, time)]); }
 
     function getDisplaySubSlots(displayTime) {
-      if (displayTime === "24:00") {
-        return ["24:00"];
-      }
-
+      if (displayTime === "24:00") return ["24:00"];
       const index = timeList.indexOf(displayTime);
       if (index < 0) return [displayTime];
-
       return timeList.slice(index, index + 3);
     }
 
     function getGroupedBooking(date, staff, displayTime) {
       const subSlots = getDisplaySubSlots(displayTime);
-
-      for (const time of subSlots) {
-        const key = slotKey(date, staff, time);
-        if (state.bookings[key]) {
-          return {
-            booking: state.bookings[key],
-            key,
-            time
-          };
-        }
+      for (const booking of state.bookings) {
+        if (booking.staff !== staff) continue;
+        const requiredSlots = booking.requiredSlots || [];
+        const match = subSlots.find(time => requiredSlots.includes(time));
+        if (match) return { booking, key: booking.id, time: booking.time || match };
       }
-
       return null;
     }
 
     function isGroupedClosed(date, staff, displayTime) {
-      const subSlots = getDisplaySubSlots(displayTime);
-      return subSlots.some(time => state.closedSlots[slotKey(date, staff, time)]);
+      return getDisplaySubSlots(displayTime).some(time => state.closedSlots[slotKey(date, staff, time)]);
     }
 
     function setGroupedClosed(date, staff, displayTime, isClosed) {
-      const subSlots = getDisplaySubSlots(displayTime);
-
-      subSlots.forEach(time => {
+      getDisplaySubSlots(displayTime).forEach(time => {
+        const hasBooking = state.bookings.some(booking => booking.staff === staff && (booking.requiredSlots || []).includes(time));
+        if (hasBooking) return;
         const key = slotKey(date, staff, time);
-        if (state.bookings[key]) return;
-
-        if (isClosed) {
-          state.closedSlots[key] = true;
-        } else {
-          delete state.closedSlots[key];
-        }
+        if (isClosed) state.closedSlots[key] = true;
+        else delete state.closedSlots[key];
       });
     }
-
 
     function renderSchedule() {
       const table = document.getElementById("scheduleTable");
       const date = getSelectedDate();
-
-      let html = "<thead><tr>";
-      html += "<th class='staff-name'>スタッフ</th>";
+      let html = "<thead><tr><th class='staff-name'>スタッフ</th>";
       displayTimeList.forEach(time => html += `<th>${time}</th>`);
       html += "</tr></thead><tbody>";
 
@@ -743,84 +350,46 @@
         displayTimeList.forEach(time => {
           const grouped = getGroupedBooking(date, staff, time);
           const closed = isGroupedClosed(date, staff, time);
-
           let cls = "slot";
           let label = "空き";
-
           if (grouped) {
             const status = grouped.booking.status || "pending";
             cls += status === "confirmed" ? " confirmed" : " booked";
             label = status === "confirmed" ? `確定済み<br><small>${grouped.time}</small>` : `予約あり<br><small>${grouped.time}</small>`;
           } else if (closed || indefiniteOff) {
-            if (indefiniteOff) {
-              cls += " indefinite-off";
-              label = "休み";
-            } else {
-              cls += offAllDay ? " offday" : " closed";
-              label = offAllDay ? "休み" : "予約あり";
-            }
+            if (indefiniteOff) { cls += " indefinite-off"; label = "休み"; }
+            else { cls += offAllDay ? " offday" : " closed"; label = offAllDay ? "休み" : "予約あり"; }
           }
-
           html += `<td class="${cls}" data-staff="${staff}" data-time="${time}">${label}</td>`;
         });
-
         html += "</tr>";
       });
-
       html += "</tbody>";
       table.innerHTML = html;
+      attachDragAndSlotEvents();
+    }
 
+    function attachDragAndSlotEvents() {
       document.querySelectorAll(".staff-name[draggable='true']").forEach(cell => {
         const staff = cell.dataset.staff;
-
-        cell.addEventListener("dragstart", () => {
-          draggedStaffName = staff;
-          cell.classList.add("dragging");
-        });
-
-        cell.addEventListener("dragend", () => {
-          draggedStaffName = null;
-          cell.classList.remove("dragging");
-          document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over"));
-        });
-
-        cell.addEventListener("dragover", e => {
-          e.preventDefault();
-          cell.classList.add("drag-over");
-        });
-
-        cell.addEventListener("dragleave", () => {
-          cell.classList.remove("drag-over");
-        });
-
-        cell.addEventListener("drop", e => {
-          e.preventDefault();
-          cell.classList.remove("drag-over");
-          moveStaff(draggedStaffName, staff);
-        });
+        cell.addEventListener("dragstart", () => { draggedStaffName = staff; cell.classList.add("dragging"); });
+        cell.addEventListener("dragend", () => { draggedStaffName = null; cell.classList.remove("dragging"); document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over")); });
+        cell.addEventListener("dragover", e => { e.preventDefault(); cell.classList.add("drag-over"); });
+        cell.addEventListener("dragleave", () => cell.classList.remove("drag-over"));
+        cell.addEventListener("drop", e => { e.preventDefault(); cell.classList.remove("drag-over"); moveStaff(draggedStaffName, staff); });
       });
 
       document.querySelectorAll(".slot").forEach(slot => {
         slot.addEventListener("click", () => {
+          const date = getSelectedDate();
           const staff = slot.dataset.staff;
           const time = slot.dataset.time;
           const grouped = getGroupedBooking(date, staff, time);
-
-          if (grouped) {
-            showBookingDetail(grouped.key);
-            return;
-          }
-
-          if (isStaffIndefiniteOff(staff)) {
-            alert("このスタッフは無期限休みです。開放する場合は「このスタッフを開放」を押してください。");
-            return;
-          }
-
+          if (grouped) { showBookingDetail(grouped.booking); return; }
+          if (isStaffIndefiniteOff(staff)) { alert("このスタッフは無期限休みです。開放する場合は「このスタッフを開放」を押してください。"); return; }
           const closed = isGroupedClosed(date, staff, time);
           setGroupedClosed(date, staff, time, !closed);
-
-          saveState();
-          renderSchedule();
+          saveSettings();
         });
       });
     }
@@ -828,21 +397,11 @@
     function addStaff() {
       const input = document.getElementById("newStaffName");
       const name = input.value.trim();
-
-      if (!name) {
-        alert("スタッフ名を入力してください。");
-        return;
-      }
-
-      if (state.staff.includes(name)) {
-        alert("同じスタッフ名があります。");
-        return;
-      }
-
+      if (!name) { alert("スタッフ名を入力してください。"); return; }
+      if (state.staff.includes(name)) { alert("同じスタッフ名があります。"); return; }
       state.staff.push(name);
       input.value = "";
-      saveState();
-      refreshAll();
+      saveSettings();
     }
 
     function getTimeRange() {
@@ -850,117 +409,64 @@
       const end = document.getElementById("bulkEnd").value;
       const startIndex = displayTimeList.indexOf(start);
       const endIndex = displayTimeList.indexOf(end);
-
-      if (startIndex < 0 || endIndex < 0 || startIndex > endIndex) {
-        alert("時間の指定を確認してください。");
-        return [];
-      }
-
+      if (startIndex < 0 || endIndex < 0 || startIndex > endIndex) { alert("時間の指定を確認してください。"); return []; }
       return displayTimeList.slice(startIndex, endIndex + 1);
     }
 
     function setRangeClosed(isClosed) {
       const date = getSelectedDate();
       const staff = document.getElementById("bulkStaff").value;
-      const range = getTimeRange();
-
-      range.forEach(time => {
-        setGroupedClosed(date, staff, time, isClosed);
-      });
-
-      saveState();
-      renderSchedule();
+      getTimeRange().forEach(time => setGroupedClosed(date, staff, time, isClosed));
+      saveSettings();
     }
 
     function setStaffOffToday() {
       const date = getSelectedDate();
       const staff = document.getElementById("bulkStaff").value;
-
       delete state.indefiniteOffStaff[staff];
-
       timeList.forEach(time => {
-        const key = slotKey(date, staff, time);
-        if (state.bookings[key]) return;
-        state.closedSlots[key] = true;
+        const hasBooking = state.bookings.some(booking => booking.staff === staff && (booking.requiredSlots || []).includes(time));
+        if (!hasBooking) state.closedSlots[slotKey(date, staff, time)] = true;
       });
-
-      saveState();
-      renderSchedule();
+      saveSettings();
     }
 
     function setStaffOffIndefinite() {
       const staff = document.getElementById("bulkStaff").value;
-
       if (!confirm(`${staff} を無期限で休みにしますか？開放するまで全ての日付で予約できません。`)) return;
-
       state.indefiniteOffStaff[staff] = true;
-      saveState();
-      renderSchedule();
+      saveSettings();
     }
 
     function setStaffOn() {
       const date = getSelectedDate();
       const staff = document.getElementById("bulkStaff").value;
-
       delete state.indefiniteOffStaff[staff];
-
-      timeList.forEach(time => {
-        const key = slotKey(date, staff, time);
-        if (state.bookings[key]) return;
-        delete state.closedSlots[key];
-      });
-
-      saveState();
-      renderSchedule();
+      timeList.forEach(time => delete state.closedSlots[slotKey(date, staff, time)]);
+      saveSettings();
     }
 
     function resetDayClosedSlots() {
       const date = getSelectedDate();
       if (!confirm(`${date} の店舗側で作った予約あり枠を全部クリアしますか？お客様の予約は消えません。`)) return;
-
-      Object.keys(state.closedSlots).forEach(key => {
-        if (key.startsWith(`${date}__`)) delete state.closedSlots[key];
-      });
-
-      saveState();
-      renderSchedule();
+      Object.keys(state.closedSlots).forEach(key => { if (key.startsWith(`${date}__`)) delete state.closedSlots[key]; });
+      saveSettings();
     }
 
-    function getBookingSlotKeys(bookingId) {
-      return Object.keys(state.bookings).filter(key => state.bookings[key].id === bookingId);
-    }
-
-    function confirmBooking(bookingId) {
-      getBookingSlotKeys(bookingId).forEach(key => {
-        state.bookings[key].status = "confirmed";
-      });
-
-      saveState();
+    async function confirmBooking(bookingId) {
+      await db.collection("bookings").doc(bookingId).update({ status: "confirmed", confirmedAt: firebase.firestore.FieldValue.serverTimestamp() });
       closeModal();
-      renderSchedule();
     }
 
-    function deleteBooking(bookingId) {
+    async function deleteBooking(bookingId) {
       if (!confirm("この予約を削除しますか？キャンセル・予約間違いの場合に使ってください。")) return;
-
-      getBookingSlotKeys(bookingId).forEach(key => {
-        delete state.bookings[key];
-      });
-
-      saveState();
+      await db.collection("bookings").doc(bookingId).delete();
       closeModal();
-      renderSchedule();
     }
 
-    function showBookingDetail(key) {
-      const booking = state.bookings[key];
-      const allKeys = getBookingSlotKeys(booking.id);
-      const slotTimes = allKeys
-        .map(k => k.split("__")[2])
-        .sort((a, b) => timeList.indexOf(a) - timeList.indexOf(b));
-
+    function showBookingDetail(booking) {
+      const slotTimes = booking.requiredSlots || [];
       const status = booking.status === "confirmed" ? "確定済み" : "未確認";
-
       document.getElementById("modalTitle").textContent = "予約詳細";
       document.getElementById("modalBody").innerHTML = `
         <p><strong>状態：</strong>${status}</p>
@@ -973,98 +479,39 @@
         <p><strong>人数：</strong>${booking.people || ""}</p>
         <p><strong>メッセージ：</strong>${booking.message || "なし"}</p>
       `;
-
       document.getElementById("modalActions").innerHTML = `
         <button class="btn green" id="confirmBookingBtn">予約を確定する</button>
         <button class="btn danger" id="deleteBookingBtn">予約を削除する</button>
         <button class="btn gray" id="modalCloseBtn">閉じる</button>
       `;
-
       document.getElementById("confirmBookingBtn").addEventListener("click", () => confirmBooking(booking.id));
       document.getElementById("deleteBookingBtn").addEventListener("click", () => deleteBooking(booking.id));
       document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
-
       document.getElementById("modalBackdrop").style.display = "flex";
     }
 
-    function closeModal() {
-      document.getElementById("modalBackdrop").style.display = "none";
-    }
-
-    function refreshAll() {
-      populateSelects();
-      renderStaffList();
-      renderSchedule();
-    }
-
-    function reloadStateFromStorage() {
-      const oldStateText = JSON.stringify(state);
-      const newState = loadState();
-      const newStateText = JSON.stringify(newState);
-
-      if (oldStateText === newStateText) return;
-
-      const selectedStaff = document.getElementById("bulkStaff").value;
-      const selectedStart = document.getElementById("bulkStart").value;
-      const selectedEnd = document.getElementById("bulkEnd").value;
-
-      state = newState;
-      populateSelects();
-
-      if (state.staff.includes(selectedStaff)) {
-        document.getElementById("bulkStaff").value = selectedStaff;
-      }
-
-      if (timeList.includes(selectedStart)) {
-        document.getElementById("bulkStart").value = selectedStart;
-      }
-
-      if (timeList.includes(selectedEnd)) {
-        document.getElementById("bulkEnd").value = selectedEnd;
-      }
-
-      renderStaffList();
-      renderSchedule();
-    }
-
-    window.addEventListener("storage", function(e) {
-      if (e.key === STORAGE_KEY) {
-        reloadStateFromStorage();
-      }
-    });
-
-    window.addEventListener("focus", reloadStateFromStorage);
-
-    setInterval(reloadStateFromStorage, 3000);
-
+    function closeModal() { document.getElementById("modalBackdrop").style.display = "none"; }
 
     document.getElementById("addStaffBtn").addEventListener("click", addStaff);
-
-    document.getElementById("newStaffName").addEventListener("keydown", e => {
-      if (e.key === "Enter") addStaff();
-    });
-
+    document.getElementById("newStaffName").addEventListener("keydown", e => { if (e.key === "Enter") addStaff(); });
     document.getElementById("closeRangeBtn").addEventListener("click", () => setRangeClosed(true));
     document.getElementById("openRangeBtn").addEventListener("click", () => setRangeClosed(false));
     document.getElementById("staffOffTodayBtn").addEventListener("click", setStaffOffToday);
     document.getElementById("staffOffIndefiniteBtn").addEventListener("click", setStaffOffIndefinite);
     document.getElementById("staffOnBtn").addEventListener("click", setStaffOn);
     document.getElementById("resetDayBtn").addEventListener("click", resetDayClosedSlots);
-
-    document.getElementById("todayBtn").addEventListener("click", () => {
-      setToday();
-      renderSchedule();
-    });
-
-    document.getElementById("refreshBtn").addEventListener("click", refreshAll);
-    document.getElementById("managerDate").addEventListener("change", renderSchedule);
+    document.getElementById("todayBtn").addEventListener("click", () => { setToday(); listenBookings(); renderSchedule(); });
+    document.getElementById("refreshBtn").addEventListener("click", () => { listenBookings(); renderSchedule(); });
+    document.getElementById("managerDate").addEventListener("change", () => { listenBookings(); renderSchedule(); });
     document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
-    document.getElementById("modalBackdrop").addEventListener("click", e => {
-      if (e.target.id === "modalBackdrop") closeModal();
-    });
+    document.getElementById("modalBackdrop").addEventListener("click", e => { if (e.target.id === "modalBackdrop") closeModal(); });
 
     setToday();
-    refreshAll();
+    ensureSettings().then(() => {
+      populateSelects();
+      listenSettings();
+      listenBookings();
+    });
   </script>
 </body>
 </html>

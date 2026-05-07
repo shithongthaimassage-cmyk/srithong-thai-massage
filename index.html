@@ -1178,7 +1178,7 @@
           <div class="booking-guide">
             <h3>かんたん予約</h3>
             <p>
-              ご希望の日時とコースを入力して、SMSで送信できます。<br>
+              ご希望の日時・スタッフ・コースを入力すると、予約管理画面に反映されます。<br>
               お急ぎの場合は、お電話でのご予約がおすすめです。
             </p>
             <ul>
@@ -1334,9 +1334,13 @@
     <a class="btn btn-primary" href="#booking">Web予約はこちら</a>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
   <script>
-    const STORAGE_KEY = "srithong_manager_v1";
-const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
+    const SETTINGS_DOC = db.collection("settings").doc("main");
+    const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
     const timeList = [
       "10:00", "10:10", "10:20", "10:30", "10:40", "10:50",
       "11:00", "11:10", "11:20", "11:30", "11:40", "11:50",
@@ -1355,29 +1359,31 @@ const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
       "24:00"
     ];
 
-    function loadManagerState() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          if (!data.staff) data.staff = defaultStaff;
-          if (!data.closedSlots) data.closedSlots = {};
-          if (!data.bookings) data.bookings = {};
-          return data;
-        } catch (error) {
-          console.error(error);
-        }
+    async function ensureSettings() {
+      const snap = await SETTINGS_DOC.get();
+
+      if (!snap.exists) {
+        await SETTINGS_DOC.set({
+          staff: defaultStaff,
+          closedSlots: {},
+          indefiniteOffStaff: {},
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        return {
+          staff: defaultStaff,
+          closedSlots: {},
+          indefiniteOffStaff: {}
+        };
       }
 
-      return {
-        staff: defaultStaff,
-        closedSlots: {},
-        bookings: {}
-      };
-    }
+      const data = snap.data() || {};
 
-    function saveManagerState(state) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      return {
+        staff: data.staff && data.staff.length ? data.staff : defaultStaff,
+        closedSlots: data.closedSlots || {},
+        indefiniteOffStaff: data.indefiniteOffStaff || {}
+      };
     }
 
     function slotKey(date, staff, time) {
@@ -1403,22 +1409,35 @@ const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
       return timeList.slice(startIndex, startIndex + slotCount);
     }
 
-    function populateStaffSelect() {
-      const state = loadManagerState();
+    function hasIntersection(listA, listB) {
+      return listA.some(item => listB.includes(item));
+    }
+
+    async function populateStaffSelect() {
+      const settings = await ensureSettings();
       const select = document.getElementById("reservationStaff");
 
+      const currentValue = select.value;
       select.innerHTML = '<option value="">選択してください</option>';
 
-      state.staff.forEach(staff => {
+      settings.staff.forEach(staff => {
+        if (settings.indefiniteOffStaff && settings.indefiniteOffStaff[staff]) return;
+
         const option = document.createElement("option");
         option.value = staff;
         option.textContent = staff;
         select.appendChild(option);
       });
+
+      if (currentValue && Array.from(select.options).some(option => option.value === currentValue)) {
+        select.value = currentValue;
+      }
     }
 
     function populateTimeSelect() {
       const select = document.getElementById("reservationTime");
+      if (!select) return;
+
       select.innerHTML = '<option value="">選択してください</option>';
 
       timeList.forEach(time => {
@@ -1439,9 +1458,9 @@ const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
       const people = document.getElementById("peopleCount").value;
       const message = document.getElementById("customerMessage").value.trim();
       const duration = getCourseDurationMinutes(course);
+      const requiredSlots = getRequiredTimeSlots(time, duration);
 
       return {
-        id: `booking_${Date.now()}`,
         name,
         phone,
         staff,
@@ -1451,67 +1470,73 @@ const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
         people,
         message,
         duration,
+        requiredSlots,
         status: "pending",
-        createdAt: new Date().toISOString()
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       };
     }
 
-    function checkAvailability(state, booking) {
-      const requiredSlots = getRequiredTimeSlots(booking.time, booking.duration);
-
-      if (!requiredSlots.length) {
+    async function checkAvailability(settings, booking) {
+      if (!booking.requiredSlots.length) {
         return {
           ok: false,
           message: "予約時間は10:00〜24:00の10分単位で選択してください。"
         };
       }
 
-      if (requiredSlots.length < Math.ceil(booking.duration / 30)) {
+      if (booking.requiredSlots.length < Math.ceil(booking.duration / 10)) {
         return {
           ok: false,
           message: "選択したコースは営業時間内に収まりません。別の時間を選択してください。"
         };
       }
 
-      for (const time of requiredSlots) {
+      if (settings.indefiniteOffStaff && settings.indefiniteOffStaff[booking.staff]) {
+        return {
+          ok: false,
+          message: `${booking.staff} は休みです。別のスタッフを選択してください。`
+        };
+      }
+
+      for (const time of booking.requiredSlots) {
         const key = slotKey(booking.date, booking.staff, time);
 
-        if (state.closedSlots[key]) {
+        if (settings.closedSlots && settings.closedSlots[key]) {
           return {
             ok: false,
-            message: `${booking.staff} は ${time} が停止中です。別の時間を選択してください。`
-          };
-        }
-
-        if (state.bookings[key]) {
-          return {
-            ok: false,
-            message: `${booking.staff} は ${time} に予約があります。別の時間を選択してください。`
+            message: `${booking.staff} は ${time} が予約できません。別の時間を選択してください。`
           };
         }
       }
 
-      return {
-        ok: true,
-        requiredSlots
-      };
-    }
+      const snapshot = await db.collection("bookings")
+        .where("date", "==", booking.date)
+        .where("staff", "==", booking.staff)
+        .get();
 
-    function saveBookingToManager(booking, requiredSlots) {
-      const state = loadManagerState();
+      let conflict = null;
 
-      requiredSlots.forEach(time => {
-        const key = slotKey(booking.date, booking.staff, time);
-        state.bookings[key] = {
-          ...booking,
-          slotTime: time
-        };
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if (data.status === "cancelled") return;
+
+        const slots = data.requiredSlots || [];
+        if (hasIntersection(slots, booking.requiredSlots)) {
+          conflict = data;
+        }
       });
 
-      saveManagerState(state);
+      if (conflict) {
+        return {
+          ok: false,
+          message: `${booking.staff} は ${conflict.time || ""} に予約があります。別の時間を選択してください。`
+        };
+      }
+
+      return { ok: true };
     }
 
-    function showBookingResult(booking, requiredSlots) {
+    function showBookingResult(booking) {
       const resultBox = document.getElementById("bookingResult");
       resultBox.style.display = "block";
       resultBox.textContent =
@@ -1522,30 +1547,45 @@ const defaultStaff = ["Free", "Aya", "Ai", "Jip"];
         `希望日時：${booking.date} ${booking.time}\n` +
         `コース：${booking.course}\n` +
         `人数：${booking.people}\n` +
-        `予約枠：${requiredSlots.join(" / ")}\n\n` +
+        `予約枠：${booking.requiredSlots.join(" / ")}\n\n` +
         `店舗からの確認連絡後、予約確定となります。`;
     }
 
-    
-
-    document.getElementById("reservationForm").addEventListener("submit", function(e) {
+    document.getElementById("reservationForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      const booking = buildReservationData();
-      const state = loadManagerState();
-      const availability = checkAvailability(state, booking);
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "送信中...";
 
-      if (!availability.ok) {
-        alert(availability.message);
-        return;
+      try {
+        const settings = await ensureSettings();
+        const booking = buildReservationData();
+        const availability = await checkAvailability(settings, booking);
+
+        if (!availability.ok) {
+          alert(availability.message);
+          return;
+        }
+
+        const docRef = await db.collection("bookings").add(booking);
+        showBookingResult({ ...booking, id: docRef.id });
+
+        this.reset();
+        await populateStaffSelect();
+
+        alert("予約管理画面に送信しました。");
+      } catch (error) {
+        console.error(error);
+        alert("予約送信中にエラーが発生しました。もう一度お試しください。");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "予約管理へ送信する";
       }
+    });
 
-      saveBookingToManager(booking, availability.requiredSlots);
-      showBookingResult(booking, availability.requiredSlots);
-      this.reset();
+    SETTINGS_DOC.onSnapshot(() => {
       populateStaffSelect();
-
-      alert("予約管理画面に送信しました。");
     });
 
     populateStaffSelect();
