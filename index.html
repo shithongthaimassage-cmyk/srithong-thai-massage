@@ -239,6 +239,19 @@
       background: rgba(255, 255, 255, 0.04);
     }
 
+    .btn-call {
+      color: #ffffff !important;
+      background: linear-gradient(135deg, #0f766e, #075e54) !important;
+      border: 2px solid rgba(255, 255, 255, 0.85) !important;
+      box-shadow: 0 12px 28px rgba(15, 118, 110, 0.35);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-call:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 38px rgba(15, 118, 110, 0.45);
+    }
+
     .floating-card {
       margin-top: 60px;
       width: min(760px, 100%);
@@ -956,7 +969,7 @@
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#booking">Web予約する →</a>
-          <a class="btn btn-outline" href="tel:08024863170">電話で予約</a>
+          <a class="btn btn-call" href="tel:08024863170">📞 電話で予約</a>
           <a class="btn btn-outline" href="#services">メニューを見る</a>
         </div>
 
@@ -1170,7 +1183,8 @@
             </p>
             <ul>
               <li>📞 電話予約：080-2486-3170</li>
-              <li>📝 Webフォーム：入力後、「SMSで予約内容を送る」を押すとSMS画面が開きます</li>
+              <li>📝 Webフォーム：入力内容は予約管理画面に保存されます</li>
+              <li>📅 空いている時間のみ予約できます</li>
             </ul>
           </div>
 
@@ -1184,6 +1198,13 @@
               <div class="form-field">
                 <label for="customerPhone">電話番号</label>
                 <input id="customerPhone" name="customerPhone" type="tel" placeholder="例：090-0000-0000" required>
+              </div>
+
+              <div class="form-field">
+                <label for="reservationStaff">スタッフ</label>
+                <select id="reservationStaff" name="reservationStaff" required>
+                  <option value="">選択してください</option>
+                </select>
               </div>
 
               <div class="form-field">
@@ -1242,14 +1263,14 @@
             </div>
 
             <div class="booking-actions">
-              <button class="btn btn-primary" type="submit" data-send="sms">SMSで予約内容を送る</button>
+              <button class="btn btn-primary" type="submit">予約管理へ送信する</button>
             </div>
 
-            <a class="btn btn-outline" href="tel:08024863170">電話で予約する</a>
+            <a class="btn btn-call" href="tel:08024863170">📞 電話で予約する</a>
 
             <p class="booking-note">
-              ※フォーム入力後、「SMSで予約内容を送る」を押すとスマホのSMS画面が開きます。内容を確認して送信してください。<br>
-              ※予約確定は店舗からの返信後となります。
+              ※送信後、予約管理画面に反映されます。店舗からの確認連絡後、予約確定となります。<br>
+              ※同じスタッフ・同じ時間に予約がある場合は送信できません。
             </p>
 
             <div class="booking-result" id="bookingResult"></div>
@@ -1296,7 +1317,7 @@
             <p>ご予約方法をお選びください</p>
             <div class="phone-big">080-2486-3170</div>
             <a class="btn btn-primary" href="#booking">Web予約フォームへ</a>
-            <a class="btn btn-outline" href="tel:08024863170">今すぐ電話する</a>
+            <a class="btn btn-call" href="tel:08024863170">📞 今すぐ電話する</a>
           </div>
         </div>
       </div>
@@ -1312,39 +1333,200 @@
   </div>
 
   <script>
-    const STORE_PHONE = "08024863170";
+    const STORAGE_KEY = "srithong_manager_v1";
+    const defaultStaff = ["WANGNA", "Yume", "Tukta", "Patty", "Kathe", "Dee", "Aiko", "Bella"];
+    const timeList = [
+      "10:00", "10:30", "11:00", "11:30",
+      "12:00", "12:30", "13:00", "13:30",
+      "14:00", "14:30", "15:00", "15:30",
+      "16:00", "16:30", "17:00", "17:30",
+      "18:00", "18:30", "19:00", "19:30",
+      "20:00", "20:30", "21:00", "21:30",
+      "22:00", "22:30", "23:00", "23:30"
+    ];
 
-    function buildReservationMessage() {
+    function loadManagerState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (!data.staff) data.staff = defaultStaff;
+          if (!data.closedSlots) data.closedSlots = {};
+          if (!data.bookings) data.bookings = {};
+          return data;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      return {
+        staff: defaultStaff,
+        closedSlots: {},
+        bookings: {}
+      };
+    }
+
+    function saveManagerState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function slotKey(date, staff, time) {
+      return `${date}__${staff}__${time}`;
+    }
+
+    function normalizeTime(value) {
+      if (!value) return "";
+      const [hour, minute] = value.split(":");
+      return `${hour.padStart(2, "0")}:${minute || "00"}`;
+    }
+
+    function getCourseDurationMinutes(courseText) {
+      const match = courseText.match(/(\d+)min/);
+      return match ? Number(match[1]) : 60;
+    }
+
+    function getRequiredTimeSlots(startTime, durationMinutes) {
+      const startIndex = timeList.indexOf(startTime);
+      if (startIndex < 0) return [];
+
+      const slotCount = Math.ceil(durationMinutes / 30);
+      return timeList.slice(startIndex, startIndex + slotCount);
+    }
+
+    function populateStaffSelect() {
+      const state = loadManagerState();
+      const select = document.getElementById("reservationStaff");
+
+      select.innerHTML = '<option value="">選択してください</option>';
+
+      state.staff.forEach(staff => {
+        const option = document.createElement("option");
+        option.value = staff;
+        option.textContent = staff;
+        select.appendChild(option);
+      });
+    }
+
+    function buildReservationData() {
       const name = document.getElementById("customerName").value.trim();
       const phone = document.getElementById("customerPhone").value.trim();
+      const staff = document.getElementById("reservationStaff").value;
       const date = document.getElementById("reservationDate").value;
-      const time = document.getElementById("reservationTime").value;
+      const time = normalizeTime(document.getElementById("reservationTime").value);
       const course = document.getElementById("reservationCourse").value;
       const people = document.getElementById("peopleCount").value;
       const message = document.getElementById("customerMessage").value.trim();
+      const duration = getCourseDurationMinutes(course);
 
-      return `【予約希望】シートーンタイ古式マッサージ
-
-お名前：${name}
-電話番号：${phone}
-希望日時：${date} ${time}
-コース：${course}
-人数：${people}
-ご要望：${message || "なし"}
-
-※店舗からの返信後、予約確定となります。`;
+      return {
+        id: `booking_${Date.now()}`,
+        name,
+        phone,
+        staff,
+        date,
+        time,
+        course,
+        people,
+        message,
+        duration,
+        status: "pending",
+        createdAt: new Date().toISOString()
+      };
     }
+
+    function checkAvailability(state, booking) {
+      const requiredSlots = getRequiredTimeSlots(booking.time, booking.duration);
+
+      if (!requiredSlots.length) {
+        return {
+          ok: false,
+          message: "予約時間は10:00〜23:30の30分単位で選択してください。"
+        };
+      }
+
+      if (requiredSlots.length < Math.ceil(booking.duration / 30)) {
+        return {
+          ok: false,
+          message: "選択したコースは営業時間内に収まりません。別の時間を選択してください。"
+        };
+      }
+
+      for (const time of requiredSlots) {
+        const key = slotKey(booking.date, booking.staff, time);
+
+        if (state.closedSlots[key]) {
+          return {
+            ok: false,
+            message: `${booking.staff} は ${time} が停止中です。別の時間を選択してください。`
+          };
+        }
+
+        if (state.bookings[key]) {
+          return {
+            ok: false,
+            message: `${booking.staff} は ${time} に予約があります。別の時間を選択してください。`
+          };
+        }
+      }
+
+      return {
+        ok: true,
+        requiredSlots
+      };
+    }
+
+    function saveBookingToManager(booking, requiredSlots) {
+      const state = loadManagerState();
+
+      requiredSlots.forEach(time => {
+        const key = slotKey(booking.date, booking.staff, time);
+        state.bookings[key] = {
+          ...booking,
+          slotTime: time
+        };
+      });
+
+      saveManagerState(state);
+    }
+
+    function showBookingResult(booking, requiredSlots) {
+      const resultBox = document.getElementById("bookingResult");
+      resultBox.style.display = "block";
+      resultBox.textContent =
+        `予約内容を送信しました。\n\n` +
+        `お名前：${booking.name}\n` +
+        `電話番号：${booking.phone}\n` +
+        `スタッフ：${booking.staff}\n` +
+        `希望日時：${booking.date} ${booking.time}\n` +
+        `コース：${booking.course}\n` +
+        `人数：${booking.people}\n` +
+        `予約枠：${requiredSlots.join(" / ")}\n\n` +
+        `店舗からの確認連絡後、予約確定となります。`;
+    }
+
+    document.getElementById("reservationTime").setAttribute("step", "1800");
 
     document.getElementById("reservationForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const message = buildReservationMessage();
-      const resultBox = document.getElementById("bookingResult");
 
-      resultBox.style.display = "block";
-resultBox.textContent = "送信内容プレビュー：\n\n" + message;
+      const booking = buildReservationData();
+      const state = loadManagerState();
+      const availability = checkAvailability(state, booking);
 
-      window.location.href = `sms:${STORE_PHONE}?body=${encodeURIComponent(message)}`;
+      if (!availability.ok) {
+        alert(availability.message);
+        return;
+      }
+
+      saveBookingToManager(booking, availability.requiredSlots);
+      showBookingResult(booking, availability.requiredSlots);
+      this.reset();
+      populateStaffSelect();
+
+      alert("予約管理画面に送信しました。");
     });
+
+    populateStaffSelect();
   </script>
 
 </body>

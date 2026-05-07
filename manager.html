@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>予約管理 | シートーンタイ古式マッサージ</title>
+
+  <style>
+    :root {
+      --brown-deep: #211207;
+      --brown: #5a3518;
+      --gold: #d6a843;
+      --gold-light: #f4d889;
+      --cream: #fff3d6;
+      --danger: #b42318;
+      --green: #0f766e;
+      --gray: #777;
+      --bg: #f4f6f8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      background: var(--bg);
+      color: #222;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .manager-header {
+      background: linear-gradient(135deg, var(--brown-deep), var(--brown));
+      color: var(--cream);
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .manager-header h1 {
+      font-size: 22px;
+    }
+
+    .manager-header a {
+      color: #2a1506;
+      background: var(--gold-light);
+      padding: 9px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .toolbar,
+    .control-panel {
+      padding: 16px 24px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      gap: 12px;
+      align-items: end;
+      flex-wrap: wrap;
+    }
+
+    .control-panel {
+      align-items: stretch;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+      min-width: 150px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #5a3518;
+    }
+
+    .field input,
+    .field select {
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 1px solid #ccc;
+      min-height: 42px;
+      background: #fff;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 10px 14px;
+      min-height: 42px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      background: var(--brown);
+    }
+
+    .btn.gold {
+      color: #2a1506;
+      background: var(--gold);
+    }
+
+    .btn.green {
+      background: var(--green);
+    }
+
+    .btn.gray {
+      background: var(--gray);
+    }
+
+    .btn.danger {
+      background: var(--danger);
+    }
+
+    .staff-panel {
+      padding: 16px 24px;
+      background: #fffaf0;
+      border-bottom: 1px solid #e6d3a6;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel-card {
+      background: #fff;
+      border: 1px solid #ead7a8;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    }
+
+    .panel-card h2 {
+      color: #5a3518;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .staff-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .staff-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      background: #fff;
+      padding: 7px 9px 7px 12px;
+    }
+
+    .staff-chip strong {
+      color: #3a210f;
+    }
+
+    .staff-chip button {
+      border: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #eee;
+      color: var(--danger);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-staff-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .add-staff-row input {
+      flex: 1;
+      min-width: 180px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 1px solid #ccc;
+    }
+
+    .notice {
+      padding: 12px 24px;
+      background: #fff3d6;
+      border-bottom: 1px solid #e2c36b;
+      color: #5a3518;
+      font-size: 14px;
+    }
+
+    .schedule-wrap {
+      padding: 20px 24px;
+      overflow-x: auto;
+    }
+
+    .schedule {
+      min-width: 1200px;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .schedule th,
+    .schedule td {
+      border: 1px solid #ddd;
+      text-align: center;
+      min-width: 92px;
+      height: 50px;
+      font-size: 13px;
+    }
+
+    .schedule th {
+      background: #2d180a;
+      color: var(--gold-light);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .staff-name {
+      background: var(--cream);
+      color: #3a210f;
+      font-weight: bold;
+      min-width: 150px !important;
+      position: sticky;
+      left: 0;
+      z-index: 1;
+    }
+
+    .staff-name.offday {
+      background: #e5e7eb;
+      color: #555;
+    }
+
+    .slot {
+      cursor: pointer;
+      background: #fff;
+      transition: 0.15s;
+    }
+
+    .slot:hover {
+      background: #fff3d6;
+      transform: scale(1.02);
+    }
+
+    .slot.closed {
+      background: #999;
+      color: white;
+      font-weight: bold;
+    }
+
+    .slot.booked {
+      background: var(--gold);
+      color: #2a1506;
+      font-weight: bold;
+    }
+
+    .slot.offday {
+      background: #d1d5db;
+      color: #555;
+      font-weight: bold;
+    }
+
+    .legend {
+      padding: 0 24px 22px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .box {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #ccc;
+    }
+
+    .box.free { background: white; }
+    .box.closed { background: #999; }
+    .box.booked { background: var(--gold); }
+    .box.offday { background: #d1d5db; }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal {
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.32);
+    }
+
+    .modal h3 {
+      color: #5a3518;
+      margin-bottom: 12px;
+    }
+
+    .modal p {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .staff-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar,
+      .control-panel {
+        align-items: stretch;
+      }
+
+      .field,
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="manager-header">
+    <h1>予約管理 | シートーンタイ古式マッサージ</h1>
+    <a href="index.html">お客様ページへ戻る</a>
+  </header>
+
+  <div class="toolbar">
+    <div class="field">
+      <label for="managerDate">日付</label>
+      <input type="date" id="managerDate">
+    </div>
+    <button class="btn gold" id="todayBtn">今日</button>
+    <button class="btn" id="refreshBtn">更新</button>
+    <button class="btn gray" id="resetDayBtn">この日の停止を全部クリア</button>
+  </div>
+
+  <section class="staff-panel">
+    <div class="panel-card">
+      <h2>スタッフ追加</h2>
+      <div class="add-staff-row">
+        <input id="newStaffName" type="text" placeholder="例：Mali">
+        <button class="btn green" id="addStaffBtn">スタッフ追加</button>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <h2>スタッフ一覧・削除</h2>
+      <div class="staff-list" id="staffListView"></div>
+    </div>
+  </section>
+
+  <section class="control-panel">
+    <div class="field">
+      <label for="bulkStaff">対象スタッフ</label>
+      <select id="bulkStaff"></select>
+    </div>
+
+    <div class="field">
+      <label for="bulkStart">開始時間</label>
+      <select id="bulkStart"></select>
+    </div>
+
+    <div class="field">
+      <label for="bulkEnd">終了時間</label>
+      <select id="bulkEnd"></select>
+    </div>
+
+    <button class="btn danger" id="closeRangeBtn">指定時間を停止</button>
+    <button class="btn green" id="openRangeBtn">指定時間を開放</button>
+    <button class="btn danger" id="staffOffBtn">このスタッフを終日停止</button>
+    <button class="btn green" id="staffOnBtn">このスタッフを終日開放</button>
+  </section>
+
+  <div class="notice">
+    空き枠をクリックすると「停止 / 空き」を切り替えできます。スタッフ削除・停止情報はこのブラウザの localStorage に保存されます。Firebase接続後は全端末共有にできます。
+  </div>
+
+  <div class="schedule-wrap">
+    <table class="schedule" id="scheduleTable"></table>
+  </div>
+
+  <div class="legend">
+    <span><i class="box free"></i> 空き</span>
+    <span><i class="box closed"></i> 店舗側で停止</span>
+    <span><i class="box offday"></i> 終日停止</span>
+    <span><i class="box booked"></i> 予約あり</span>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <h3 id="modalTitle">詳細</h3>
+      <div id="modalBody"></div>
+      <div class="modal-actions">
+        <button class="btn gray" id="modalCloseBtn">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "srithong_manager_v1";
+    const defaultStaff = ["WANGNA", "Yume", "Tukta", "Patty", "Kathe", "Dee", "Aiko", "Bella"];
+    const timeList = [
+      "10:00", "10:30", "11:00", "11:30",
+      "12:00", "12:30", "13:00", "13:30",
+      "14:00", "14:30", "15:00", "15:30",
+      "16:00", "16:30", "17:00", "17:30",
+      "18:00", "18:30", "19:00", "19:30",
+      "20:00", "20:30", "21:00", "21:30",
+      "22:00", "22:30", "23:00", "23:30"
+    ];
+
+    let state = loadState();
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+      return {
+        staff: defaultStaff,
+        closedSlots: {},
+        bookings: {}
+      };
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function getSelectedDate() {
+      return document.getElementById("managerDate").value;
+    }
+
+    function slotKey(date, staff, time) {
+      return `${date}__${staff}__${time}`;
+    }
+
+    function staffDayPrefix(date, staff) {
+      return `${date}__${staff}__`;
+    }
+
+    function setToday() {
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("managerDate").value = today;
+    }
+
+    function populateSelects() {
+      const staffSelect = document.getElementById("bulkStaff");
+      staffSelect.innerHTML = state.staff.map(staff => `<option value="${staff}">${staff}</option>`).join("");
+
+      const startSelect = document.getElementById("bulkStart");
+      const endSelect = document.getElementById("bulkEnd");
+
+      startSelect.innerHTML = timeList.map(time => `<option value="${time}">${time}</option>`).join("");
+      endSelect.innerHTML = timeList.map(time => `<option value="${time}">${time}</option>`).join("");
+
+      startSelect.value = "10:00";
+      endSelect.value = "23:30";
+    }
+
+    function renderStaffList() {
+      const box = document.getElementById("staffListView");
+      box.innerHTML = "";
+
+      state.staff.forEach(staff => {
+        const chip = document.createElement("div");
+        chip.className = "staff-chip";
+        chip.innerHTML = `<strong>${staff}</strong><button type="button" aria-label="delete">×</button>`;
+
+        chip.querySelector("button").addEventListener("click", () => {
+          if (!confirm(`${staff} を削除しますか？`)) return;
+          state.staff = state.staff.filter(name => name !== staff);
+
+          Object.keys(state.closedSlots).forEach(key => {
+            if (key.includes(`__${staff}__`)) delete state.closedSlots[key];
+          });
+
+          Object.keys(state.bookings).forEach(key => {
+            if (key.includes(`__${staff}__`)) delete state.bookings[key];
+          });
+
+          saveState();
+          refreshAll();
+        });
+
+        box.appendChild(chip);
+      });
+    }
+
+    function isStaffOffAllDay(date, staff) {
+      return timeList.every(time => state.closedSlots[slotKey(date, staff, time)]);
+    }
+
+    function renderSchedule() {
+      const table = document.getElementById("scheduleTable");
+      const date = getSelectedDate();
+
+      let html = "<thead><tr>";
+      html += "<th class='staff-name'>スタッフ</th>";
+      timeList.forEach(time => html += `<th>${time}</th>`);
+      html += "</tr></thead><tbody>";
+
+      state.staff.forEach(staff => {
+        const offAllDay = isStaffOffAllDay(date, staff);
+        html += `<tr><td class="staff-name ${offAllDay ? "offday" : ""}">${staff}${offAllDay ? "<br>終日停止" : ""}</td>`;
+
+        timeList.forEach(time => {
+          const key = slotKey(date, staff, time);
+          const booking = state.bookings[key];
+          const closed = state.closedSlots[key];
+
+          let cls = "slot";
+          let label = "空き";
+
+          if (booking) {
+            cls += " booked";
+            label = "予約あり";
+          } else if (closed) {
+            cls += offAllDay ? " offday" : " closed";
+            label = offAllDay ? "休み" : "停止";
+          }
+
+          html += `<td class="${cls}" data-staff="${staff}" data-time="${time}">${label}</td>`;
+        });
+
+        html += "</tr>";
+      });
+
+      html += "</tbody>";
+      table.innerHTML = html;
+
+      document.querySelectorAll(".slot").forEach(slot => {
+        slot.addEventListener("click", () => {
+          const staff = slot.dataset.staff;
+          const time = slot.dataset.time;
+          const key = slotKey(date, staff, time);
+
+          if (state.bookings[key]) {
+            showBookingDetail(key);
+            return;
+          }
+
+          state.closedSlots[key] = !state.closedSlots[key];
+
+          if (!state.closedSlots[key]) {
+            delete state.closedSlots[key];
+          }
+
+          saveState();
+          renderSchedule();
+        });
+      });
+    }
+
+    function addStaff() {
+      const input = document.getElementById("newStaffName");
+      const name = input.value.trim();
+
+      if (!name) {
+        alert("スタッフ名を入力してください。");
+        return;
+      }
+
+      if (state.staff.includes(name)) {
+        alert("同じスタッフ名があります。");
+        return;
+      }
+
+      state.staff.push(name);
+      input.value = "";
+      saveState();
+      refreshAll();
+    }
+
+    function getTimeRange() {
+      const start = document.getElementById("bulkStart").value;
+      const end = document.getElementById("bulkEnd").value;
+      const startIndex = timeList.indexOf(start);
+      const endIndex = timeList.indexOf(end);
+
+      if (startIndex < 0 || endIndex < 0 || startIndex > endIndex) {
+        alert("時間の指定を確認してください。");
+        return [];
+      }
+
+      return timeList.slice(startIndex, endIndex + 1);
+    }
+
+    function setRangeClosed(isClosed) {
+      const date = getSelectedDate();
+      const staff = document.getElementById("bulkStaff").value;
+      const range = getTimeRange();
+
+      range.forEach(time => {
+        const key = slotKey(date, staff, time);
+        if (state.bookings[key]) return;
+
+        if (isClosed) {
+          state.closedSlots[key] = true;
+        } else {
+          delete state.closedSlots[key];
+        }
+      });
+
+      saveState();
+      renderSchedule();
+    }
+
+    function setStaffAllDay(isClosed) {
+      const date = getSelectedDate();
+      const staff = document.getElementById("bulkStaff").value;
+
+      timeList.forEach(time => {
+        const key = slotKey(date, staff, time);
+        if (state.bookings[key]) return;
+
+        if (isClosed) {
+          state.closedSlots[key] = true;
+        } else {
+          delete state.closedSlots[key];
+        }
+      });
+
+      saveState();
+      renderSchedule();
+    }
+
+    function resetDayClosedSlots() {
+      const date = getSelectedDate();
+      if (!confirm(`${date} の停止枠を全部クリアしますか？予約枠は消えません。`)) return;
+
+      Object.keys(state.closedSlots).forEach(key => {
+        if (key.startsWith(`${date}__`)) delete state.closedSlots[key];
+      });
+
+      saveState();
+      renderSchedule();
+    }
+
+    function showBookingDetail(key) {
+      const booking = state.bookings[key];
+
+      document.getElementById("modalTitle").textContent = "予約詳細";
+      document.getElementById("modalBody").innerHTML = `
+        <p><strong>お名前：</strong>${booking.name || ""}</p>
+        <p><strong>電話番号：</strong>${booking.phone || ""}</p>
+        <p><strong>コース：</strong>${booking.course || ""}</p>
+        <p><strong>人数：</strong>${booking.people || ""}</p>
+        <p><strong>メッセージ：</strong>${booking.message || "なし"}</p>
+      `;
+
+      document.getElementById("modalBackdrop").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackdrop").style.display = "none";
+    }
+
+    function refreshAll() {
+      populateSelects();
+      renderStaffList();
+      renderSchedule();
+    }
+
+    document.getElementById("addStaffBtn").addEventListener("click", addStaff);
+
+    document.getElementById("newStaffName").addEventListener("keydown", e => {
+      if (e.key === "Enter") addStaff();
+    });
+
+    document.getElementById("closeRangeBtn").addEventListener("click", () => setRangeClosed(true));
+    document.getElementById("openRangeBtn").addEventListener("click", () => setRangeClosed(false));
+    document.getElementById("staffOffBtn").addEventListener("click", () => setStaffAllDay(true));
+    document.getElementById("staffOnBtn").addEventListener("click", () => setStaffAllDay(false));
+    document.getElementById("resetDayBtn").addEventListener("click", resetDayClosedSlots);
+
+    document.getElementById("todayBtn").addEventListener("click", () => {
+      setToday();
+      renderSchedule();
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", refreshAll);
+    document.getElementById("managerDate").addEventListener("change", renderSchedule);
+    document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+    document.getElementById("modalBackdrop").addEventListener("click", e => {
+      if (e.target.id === "modalBackdrop") closeModal();
+    });
+
+    setToday();
+    refreshAll();
+  </script>
+</body>
+</html>
