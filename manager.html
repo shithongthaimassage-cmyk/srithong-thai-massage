@@ -322,6 +322,13 @@
       font-weight: bold;
     }
 
+    .slot small {
+      display: block;
+      font-size: 11px;
+      margin-top: 2px;
+      opacity: 0.85;
+    }
+
     .slot.indefinite-off {
       background: #4b5563;
       color: #fff;
@@ -467,7 +474,7 @@
   </section>
 
   <div class="notice">
-    空き枠をクリックすると「予約あり / 空き」を切り替えできます。休みボタンは「今日だけ」と「無期限」を選べます。予約ありをクリックすると詳細・確定・削除ができます。スタッフ名はドラッグで順番変更できます。予約が入ると約3秒ごとに自動更新します。
+    空き枠をクリックすると「予約あり / 空き」を切り替えできます。休みボタンは「今日だけ」と「無期限」を選べます。予約ありをクリックすると詳細・確定・削除ができます。スタッフ名はドラッグで順番変更できます。予約が入ると約3秒ごとに自動更新します。管理画面は見やすいように30分単位で表示します。10分単位の予約は枠内に時刻も表示します。
   </div>
 
   <div class="schedule-wrap">
@@ -497,13 +504,29 @@
     const STORAGE_KEY = "srithong_manager_v1";
     const defaultStaff = ["WANGNA", "Yume", "Tukta", "Patty", "Kathe", "Dee", "Aiko", "Bella"];
     const timeList = [
-      "10:00", "10:30", "11:00", "11:30",
-      "12:00", "12:30", "13:00", "13:30",
-      "14:00", "14:30", "15:00", "15:30",
-      "16:00", "16:30", "17:00", "17:30",
-      "18:00", "18:30", "19:00", "19:30",
-      "20:00", "20:30", "21:00", "21:30",
-      "22:00", "22:30", "23:00", "23:30"
+      "10:00", "10:10", "10:20", "10:30", "10:40", "10:50",
+      "11:00", "11:10", "11:20", "11:30", "11:40", "11:50",
+      "12:00", "12:10", "12:20", "12:30", "12:40", "12:50",
+      "13:00", "13:10", "13:20", "13:30", "13:40", "13:50",
+      "14:00", "14:10", "14:20", "14:30", "14:40", "14:50",
+      "15:00", "15:10", "15:20", "15:30", "15:40", "15:50",
+      "16:00", "16:10", "16:20", "16:30", "16:40", "16:50",
+      "17:00", "17:10", "17:20", "17:30", "17:40", "17:50",
+      "18:00", "18:10", "18:20", "18:30", "18:40", "18:50",
+      "19:00", "19:10", "19:20", "19:30", "19:40", "19:50",
+      "20:00", "20:10", "20:20", "20:30", "20:40", "20:50",
+      "21:00", "21:10", "21:20", "21:30", "21:40", "21:50",
+      "22:00", "22:10", "22:20", "22:30", "22:40", "22:50",
+      "23:00", "23:10", "23:20", "23:30", "23:40", "23:50",
+      "24:00"
+    ];
+
+    const displayTimeList = [
+      "10:00", "10:30", "11:00", "11:30", "12:00", "12:30",
+      "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+      "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
+      "19:00", "19:30", "20:00", "20:30", "21:00", "21:30",
+      "22:00", "22:30", "23:00", "23:30", "24:00"
     ];
 
     let state = loadState();
@@ -571,8 +594,8 @@
       const startSelect = document.getElementById("bulkStart");
       const endSelect = document.getElementById("bulkEnd");
 
-      startSelect.innerHTML = timeList.map(time => `<option value="${time}">${time}</option>`).join("");
-      endSelect.innerHTML = timeList.map(time => `<option value="${time}">${time}</option>`).join("");
+      startSelect.innerHTML = displayTimeList.map(time => `<option value="${time}">${time}</option>`).join("");
+      endSelect.innerHTML = displayTimeList.map(time => `<option value="${time}">${time}</option>`).join("");
 
       startSelect.value = "10:00";
       endSelect.value = "23:30";
@@ -650,13 +673,63 @@
       return !isStaffIndefiniteOff(staff) && timeList.every(time => state.closedSlots[slotKey(date, staff, time)]);
     }
 
+
+    function getDisplaySubSlots(displayTime) {
+      if (displayTime === "24:00") {
+        return ["24:00"];
+      }
+
+      const index = timeList.indexOf(displayTime);
+      if (index < 0) return [displayTime];
+
+      return timeList.slice(index, index + 3);
+    }
+
+    function getGroupedBooking(date, staff, displayTime) {
+      const subSlots = getDisplaySubSlots(displayTime);
+
+      for (const time of subSlots) {
+        const key = slotKey(date, staff, time);
+        if (state.bookings[key]) {
+          return {
+            booking: state.bookings[key],
+            key,
+            time
+          };
+        }
+      }
+
+      return null;
+    }
+
+    function isGroupedClosed(date, staff, displayTime) {
+      const subSlots = getDisplaySubSlots(displayTime);
+      return subSlots.some(time => state.closedSlots[slotKey(date, staff, time)]);
+    }
+
+    function setGroupedClosed(date, staff, displayTime, isClosed) {
+      const subSlots = getDisplaySubSlots(displayTime);
+
+      subSlots.forEach(time => {
+        const key = slotKey(date, staff, time);
+        if (state.bookings[key]) return;
+
+        if (isClosed) {
+          state.closedSlots[key] = true;
+        } else {
+          delete state.closedSlots[key];
+        }
+      });
+    }
+
+
     function renderSchedule() {
       const table = document.getElementById("scheduleTable");
       const date = getSelectedDate();
 
       let html = "<thead><tr>";
       html += "<th class='staff-name'>スタッフ</th>";
-      timeList.forEach(time => html += `<th>${time}</th>`);
+      displayTimeList.forEach(time => html += `<th>${time}</th>`);
       html += "</tr></thead><tbody>";
 
       state.staff.forEach(staff => {
@@ -667,18 +740,17 @@
         const offLabel = indefiniteOff ? "<br>無期限休み" : (todayOnlyOff ? "<br>休み" : "");
         html += `<tr><td class="staff-name ${staffClass}" draggable="true" data-staff="${staff}">${staff}<span class="drag-mini">☰ drag</span>${offLabel}</td>`;
 
-        timeList.forEach(time => {
-          const key = slotKey(date, staff, time);
-          const booking = state.bookings[key];
-          const closed = state.closedSlots[key];
+        displayTimeList.forEach(time => {
+          const grouped = getGroupedBooking(date, staff, time);
+          const closed = isGroupedClosed(date, staff, time);
 
           let cls = "slot";
           let label = "空き";
 
-          if (booking) {
-            const status = booking.status || "pending";
+          if (grouped) {
+            const status = grouped.booking.status || "pending";
             cls += status === "confirmed" ? " confirmed" : " booked";
-            label = status === "confirmed" ? "確定済み" : "予約あり";
+            label = status === "confirmed" ? `確定済み<br><small>${grouped.time}</small>` : `予約あり<br><small>${grouped.time}</small>`;
           } else if (closed || indefiniteOff) {
             if (indefiniteOff) {
               cls += " indefinite-off";
@@ -732,10 +804,10 @@
         slot.addEventListener("click", () => {
           const staff = slot.dataset.staff;
           const time = slot.dataset.time;
-          const key = slotKey(date, staff, time);
+          const grouped = getGroupedBooking(date, staff, time);
 
-          if (state.bookings[key]) {
-            showBookingDetail(key);
+          if (grouped) {
+            showBookingDetail(grouped.key);
             return;
           }
 
@@ -744,11 +816,8 @@
             return;
           }
 
-          state.closedSlots[key] = !state.closedSlots[key];
-
-          if (!state.closedSlots[key]) {
-            delete state.closedSlots[key];
-          }
+          const closed = isGroupedClosed(date, staff, time);
+          setGroupedClosed(date, staff, time, !closed);
 
           saveState();
           renderSchedule();
@@ -779,15 +848,15 @@
     function getTimeRange() {
       const start = document.getElementById("bulkStart").value;
       const end = document.getElementById("bulkEnd").value;
-      const startIndex = timeList.indexOf(start);
-      const endIndex = timeList.indexOf(end);
+      const startIndex = displayTimeList.indexOf(start);
+      const endIndex = displayTimeList.indexOf(end);
 
       if (startIndex < 0 || endIndex < 0 || startIndex > endIndex) {
         alert("時間の指定を確認してください。");
         return [];
       }
 
-      return timeList.slice(startIndex, endIndex + 1);
+      return displayTimeList.slice(startIndex, endIndex + 1);
     }
 
     function setRangeClosed(isClosed) {
@@ -796,14 +865,7 @@
       const range = getTimeRange();
 
       range.forEach(time => {
-        const key = slotKey(date, staff, time);
-        if (state.bookings[key]) return;
-
-        if (isClosed) {
-          state.closedSlots[key] = true;
-        } else {
-          delete state.closedSlots[key];
-        }
+        setGroupedClosed(date, staff, time, isClosed);
       });
 
       saveState();
