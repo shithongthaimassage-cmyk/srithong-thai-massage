@@ -15,6 +15,7 @@
       --danger: #b42318;
       --green: #0f766e;
       --gray: #777;
+      --confirmed: #737373;
       --bg: #f4f6f8;
     }
 
@@ -130,7 +131,7 @@
       background: #fffaf0;
       border-bottom: 1px solid #e6d3a6;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1.35fr;
       gap: 18px;
     }
 
@@ -145,6 +146,12 @@
     .panel-card h2 {
       color: #5a3518;
       font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .panel-card .hint {
+      color: #7a5a2e;
+      font-size: 13px;
       margin-bottom: 12px;
     }
 
@@ -152,6 +159,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      min-height: 42px;
     }
 
     .staff-chip {
@@ -162,6 +170,22 @@
       border-radius: 999px;
       background: #fff;
       padding: 7px 9px 7px 12px;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .staff-chip.dragging {
+      opacity: 0.45;
+      cursor: grabbing;
+    }
+
+    .staff-chip.drag-over {
+      outline: 3px solid rgba(214, 168, 67, 0.45);
+    }
+
+    .staff-chip .handle {
+      color: #9a7a32;
+      font-weight: bold;
     }
 
     .staff-chip strong {
@@ -238,11 +262,29 @@
       position: sticky;
       left: 0;
       z-index: 1;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .staff-name.dragging {
+      opacity: 0.55;
+      cursor: grabbing;
+    }
+
+    .staff-name.drag-over {
+      outline: 3px solid rgba(214, 168, 67, 0.55);
     }
 
     .staff-name.offday {
       background: #e5e7eb;
       color: #555;
+    }
+
+    .drag-mini {
+      display: block;
+      font-size: 11px;
+      color: #8a5d2e;
+      margin-top: 2px;
     }
 
     .slot {
@@ -265,6 +307,12 @@
     .slot.booked {
       background: var(--gold);
       color: #2a1506;
+      font-weight: bold;
+    }
+
+    .slot.confirmed {
+      background: var(--confirmed);
+      color: #fff;
       font-weight: bold;
     }
 
@@ -297,6 +345,7 @@
     .box.free { background: white; }
     .box.closed { background: #999; }
     .box.booked { background: var(--gold); }
+    .box.confirmed { background: var(--confirmed); }
     .box.offday { background: #d1d5db; }
 
     .modal-backdrop {
@@ -311,7 +360,7 @@
     }
 
     .modal {
-      width: min(520px, 100%);
+      width: min(560px, 100%);
       background: #fff;
       border-radius: 18px;
       padding: 20px;
@@ -367,12 +416,13 @@
     </div>
     <button class="btn gold" id="todayBtn">今日</button>
     <button class="btn" id="refreshBtn">更新</button>
-    <button class="btn gray" id="resetDayBtn">この日の停止を全部クリア</button>
+    <button class="btn gray" id="resetDayBtn">この日の予約あり（店舗停止）を全部クリア</button>
   </div>
 
   <section class="staff-panel">
     <div class="panel-card">
       <h2>スタッフ追加</h2>
+      <p class="hint">スタッフ名を追加できます。</p>
       <div class="add-staff-row">
         <input id="newStaffName" type="text" placeholder="例：Mali">
         <button class="btn green" id="addStaffBtn">スタッフ追加</button>
@@ -380,7 +430,8 @@
     </div>
 
     <div class="panel-card">
-      <h2>スタッフ一覧・削除</h2>
+      <h2>スタッフ一覧・削除・並び替え</h2>
+      <p class="hint">名前をドラッグすると順番を変更できます。</p>
       <div class="staff-list" id="staffListView"></div>
     </div>
   </section>
@@ -401,14 +452,14 @@
       <select id="bulkEnd"></select>
     </div>
 
-    <button class="btn danger" id="closeRangeBtn">指定時間を停止</button>
+    <button class="btn danger" id="closeRangeBtn">指定時間を予約ありにする</button>
     <button class="btn green" id="openRangeBtn">指定時間を開放</button>
-    <button class="btn danger" id="staffOffBtn">このスタッフを終日停止</button>
+    <button class="btn danger" id="staffOffBtn">このスタッフを終日休みにする</button>
     <button class="btn green" id="staffOnBtn">このスタッフを終日開放</button>
   </section>
 
   <div class="notice">
-    空き枠をクリックすると「停止 / 空き」を切り替えできます。スタッフ削除・停止情報はこのブラウザの localStorage に保存されます。Firebase接続後は全端末共有にできます。
+    空き枠をクリックすると「予約あり / 空き」を切り替えできます。終日休みボタンを使うと「休み」と表示されます。予約ありをクリックすると詳細・確定・削除ができます。スタッフ名はドラッグで順番変更できます。予約が入ると約3秒ごとに自動更新します。
   </div>
 
   <div class="schedule-wrap">
@@ -417,16 +468,17 @@
 
   <div class="legend">
     <span><i class="box free"></i> 空き</span>
-    <span><i class="box closed"></i> 店舗側で停止</span>
-    <span><i class="box offday"></i> 終日停止</span>
-    <span><i class="box booked"></i> 予約あり</span>
+    <span><i class="box closed"></i> 予約あり（店舗停止）</span>
+    <span><i class="box booked"></i> 予約あり（未確認）</span>
+    <span><i class="box confirmed"></i> 確定済み</span>
+    <span><i class="box offday"></i> 休み</span>
   </div>
 
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal">
       <h3 id="modalTitle">詳細</h3>
       <div id="modalBody"></div>
-      <div class="modal-actions">
+      <div class="modal-actions" id="modalActions">
         <button class="btn gray" id="modalCloseBtn">閉じる</button>
       </div>
     </div>
@@ -446,10 +498,22 @@
     ];
 
     let state = loadState();
+    let draggedStaffName = null;
 
     function loadState() {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (!data.staff) data.staff = defaultStaff;
+          if (!data.closedSlots) data.closedSlots = {};
+          if (!data.bookings) data.bookings = {};
+          return data;
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
       return {
         staff: defaultStaff,
         closedSlots: {},
@@ -469,13 +533,24 @@
       return `${date}__${staff}__${time}`;
     }
 
-    function staffDayPrefix(date, staff) {
-      return `${date}__${staff}__`;
-    }
-
     function setToday() {
       const today = new Date().toISOString().split("T")[0];
       document.getElementById("managerDate").value = today;
+    }
+
+    function moveStaff(draggedName, targetName) {
+      if (!draggedName || !targetName || draggedName === targetName) return;
+
+      const fromIndex = state.staff.indexOf(draggedName);
+      const toIndex = state.staff.indexOf(targetName);
+
+      if (fromIndex < 0 || toIndex < 0) return;
+
+      const [moved] = state.staff.splice(fromIndex, 1);
+      state.staff.splice(toIndex, 0, moved);
+
+      saveState();
+      refreshAll();
     }
 
     function populateSelects() {
@@ -499,9 +574,38 @@
       state.staff.forEach(staff => {
         const chip = document.createElement("div");
         chip.className = "staff-chip";
-        chip.innerHTML = `<strong>${staff}</strong><button type="button" aria-label="delete">×</button>`;
+        chip.draggable = true;
+        chip.dataset.staff = staff;
+        chip.innerHTML = `<span class="handle">☰</span><strong>${staff}</strong><button type="button" aria-label="delete">×</button>`;
 
-        chip.querySelector("button").addEventListener("click", () => {
+        chip.addEventListener("dragstart", () => {
+          draggedStaffName = staff;
+          chip.classList.add("dragging");
+        });
+
+        chip.addEventListener("dragend", () => {
+          draggedStaffName = null;
+          chip.classList.remove("dragging");
+          document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over"));
+        });
+
+        chip.addEventListener("dragover", e => {
+          e.preventDefault();
+          chip.classList.add("drag-over");
+        });
+
+        chip.addEventListener("dragleave", () => {
+          chip.classList.remove("drag-over");
+        });
+
+        chip.addEventListener("drop", e => {
+          e.preventDefault();
+          chip.classList.remove("drag-over");
+          moveStaff(draggedStaffName, staff);
+        });
+
+        chip.querySelector("button").addEventListener("click", e => {
+          e.stopPropagation();
           if (!confirm(`${staff} を削除しますか？`)) return;
           state.staff = state.staff.filter(name => name !== staff);
 
@@ -536,7 +640,7 @@
 
       state.staff.forEach(staff => {
         const offAllDay = isStaffOffAllDay(date, staff);
-        html += `<tr><td class="staff-name ${offAllDay ? "offday" : ""}">${staff}${offAllDay ? "<br>終日停止" : ""}</td>`;
+        html += `<tr><td class="staff-name ${offAllDay ? "offday" : ""}" draggable="true" data-staff="${staff}">${staff}<span class="drag-mini">☰ drag</span>${offAllDay ? "<br>休み" : ""}</td>`;
 
         timeList.forEach(time => {
           const key = slotKey(date, staff, time);
@@ -547,11 +651,12 @@
           let label = "空き";
 
           if (booking) {
-            cls += " booked";
-            label = "予約あり";
+            const status = booking.status || "pending";
+            cls += status === "confirmed" ? " confirmed" : " booked";
+            label = status === "confirmed" ? "確定済み" : "予約あり";
           } else if (closed) {
             cls += offAllDay ? " offday" : " closed";
-            label = offAllDay ? "休み" : "停止";
+            label = offAllDay ? "休み" : "予約あり";
           }
 
           html += `<td class="${cls}" data-staff="${staff}" data-time="${time}">${label}</td>`;
@@ -562,6 +667,36 @@
 
       html += "</tbody>";
       table.innerHTML = html;
+
+      document.querySelectorAll(".staff-name[draggable='true']").forEach(cell => {
+        const staff = cell.dataset.staff;
+
+        cell.addEventListener("dragstart", () => {
+          draggedStaffName = staff;
+          cell.classList.add("dragging");
+        });
+
+        cell.addEventListener("dragend", () => {
+          draggedStaffName = null;
+          cell.classList.remove("dragging");
+          document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over"));
+        });
+
+        cell.addEventListener("dragover", e => {
+          e.preventDefault();
+          cell.classList.add("drag-over");
+        });
+
+        cell.addEventListener("dragleave", () => {
+          cell.classList.remove("drag-over");
+        });
+
+        cell.addEventListener("drop", e => {
+          e.preventDefault();
+          cell.classList.remove("drag-over");
+          moveStaff(draggedStaffName, staff);
+        });
+      });
 
       document.querySelectorAll(".slot").forEach(slot => {
         slot.addEventListener("click", () => {
@@ -661,7 +796,7 @@
 
     function resetDayClosedSlots() {
       const date = getSelectedDate();
-      if (!confirm(`${date} の停止枠を全部クリアしますか？予約枠は消えません。`)) return;
+      if (!confirm(`${date} の店舗側で作った予約あり枠を全部クリアしますか？お客様の予約は消えません。`)) return;
 
       Object.keys(state.closedSlots).forEach(key => {
         if (key.startsWith(`${date}__`)) delete state.closedSlots[key];
@@ -671,17 +806,63 @@
       renderSchedule();
     }
 
+    function getBookingSlotKeys(bookingId) {
+      return Object.keys(state.bookings).filter(key => state.bookings[key].id === bookingId);
+    }
+
+    function confirmBooking(bookingId) {
+      getBookingSlotKeys(bookingId).forEach(key => {
+        state.bookings[key].status = "confirmed";
+      });
+
+      saveState();
+      closeModal();
+      renderSchedule();
+    }
+
+    function deleteBooking(bookingId) {
+      if (!confirm("この予約を削除しますか？キャンセル・予約間違いの場合に使ってください。")) return;
+
+      getBookingSlotKeys(bookingId).forEach(key => {
+        delete state.bookings[key];
+      });
+
+      saveState();
+      closeModal();
+      renderSchedule();
+    }
+
     function showBookingDetail(key) {
       const booking = state.bookings[key];
+      const allKeys = getBookingSlotKeys(booking.id);
+      const slotTimes = allKeys
+        .map(k => k.split("__")[2])
+        .sort((a, b) => timeList.indexOf(a) - timeList.indexOf(b));
+
+      const status = booking.status === "confirmed" ? "確定済み" : "未確認";
 
       document.getElementById("modalTitle").textContent = "予約詳細";
       document.getElementById("modalBody").innerHTML = `
+        <p><strong>状態：</strong>${status}</p>
+        <p><strong>スタッフ：</strong>${booking.staff || ""}</p>
+        <p><strong>日時：</strong>${booking.date || ""} ${booking.time || ""}</p>
+        <p><strong>予約枠：</strong>${slotTimes.join(" / ")}</p>
         <p><strong>お名前：</strong>${booking.name || ""}</p>
         <p><strong>電話番号：</strong>${booking.phone || ""}</p>
         <p><strong>コース：</strong>${booking.course || ""}</p>
         <p><strong>人数：</strong>${booking.people || ""}</p>
         <p><strong>メッセージ：</strong>${booking.message || "なし"}</p>
       `;
+
+      document.getElementById("modalActions").innerHTML = `
+        <button class="btn green" id="confirmBookingBtn">予約を確定する</button>
+        <button class="btn danger" id="deleteBookingBtn">予約を削除する</button>
+        <button class="btn gray" id="modalCloseBtn">閉じる</button>
+      `;
+
+      document.getElementById("confirmBookingBtn").addEventListener("click", () => confirmBooking(booking.id));
+      document.getElementById("deleteBookingBtn").addEventListener("click", () => deleteBooking(booking.id));
+      document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
 
       document.getElementById("modalBackdrop").style.display = "flex";
     }
@@ -695,6 +876,47 @@
       renderStaffList();
       renderSchedule();
     }
+
+    function reloadStateFromStorage() {
+      const oldStateText = JSON.stringify(state);
+      const newState = loadState();
+      const newStateText = JSON.stringify(newState);
+
+      if (oldStateText === newStateText) return;
+
+      const selectedStaff = document.getElementById("bulkStaff").value;
+      const selectedStart = document.getElementById("bulkStart").value;
+      const selectedEnd = document.getElementById("bulkEnd").value;
+
+      state = newState;
+      populateSelects();
+
+      if (state.staff.includes(selectedStaff)) {
+        document.getElementById("bulkStaff").value = selectedStaff;
+      }
+
+      if (timeList.includes(selectedStart)) {
+        document.getElementById("bulkStart").value = selectedStart;
+      }
+
+      if (timeList.includes(selectedEnd)) {
+        document.getElementById("bulkEnd").value = selectedEnd;
+      }
+
+      renderStaffList();
+      renderSchedule();
+    }
+
+    window.addEventListener("storage", function(e) {
+      if (e.key === STORAGE_KEY) {
+        reloadStateFromStorage();
+      }
+    });
+
+    window.addEventListener("focus", reloadStateFromStorage);
+
+    setInterval(reloadStateFromStorage, 3000);
+
 
     document.getElementById("addStaffBtn").addEventListener("click", addStaff);
 
