@@ -763,6 +763,39 @@
       line-height: 1.65;
     }
 
+
+    .access-map {
+      margin-bottom: 34px;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(244, 216, 137, 0.45);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      background: rgba(255, 250, 240, 0.08);
+    }
+
+    .access-map iframe {
+      width: 100%;
+      min-height: 430px;
+      border: 0;
+      display: block;
+      filter: saturate(0.95) contrast(1.02);
+    }
+
+    .access-map-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 18px;
+      background: rgba(33, 18, 7, 0.9);
+      border-top: 1px solid rgba(244, 216, 137, 0.25);
+    }
+
+    .access-map-actions .btn {
+      min-height: 48px;
+      padding: 0 20px;
+      font-size: 0.92rem;
+    }
+
     .contact {
       background:
         radial-gradient(circle at 80% 0%, rgba(244, 216, 137, 0.13), transparent 28%),
@@ -928,10 +961,318 @@
         padding: 72px 0;
       }
 
+      .access-map iframe {
+        min-height: 330px;
+      }
+
       .mobile-reserve {
         display: block;
       }
     }
+  
+    /* ===== Mobile polish for smartphone view ===== */
+    @media (max-width: 620px) {
+      body {
+        font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif;
+        line-height: 1.72;
+        overflow-x: hidden;
+      }
+
+      .container,
+      .hero-inner,
+      .header-inner {
+        width: min(100% - 24px, 520px);
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+      }
+
+      .header-inner {
+        min-height: 62px;
+        gap: 10px;
+      }
+
+      .brand {
+        min-width: 0;
+        gap: 10px;
+      }
+
+      .brand-logo {
+        width: 44px;
+        height: 44px;
+      }
+
+      .brand-name {
+        font-size: 0.92rem;
+        letter-spacing: 0.03em;
+        line-height: 1.25;
+      }
+
+      .brand-sub {
+        font-size: 0.68rem;
+      }
+
+      .hero {
+        min-height: 620px;
+        align-items: end;
+        background:
+          linear-gradient(180deg, rgba(33, 18, 7, 0.35) 0%, rgba(33, 18, 7, 0.78) 44%, rgba(33, 18, 7, 0.98) 100%),
+          url("https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80") 64% center/cover;
+      }
+
+      .hero::before {
+        background-size: 36px 36px;
+        opacity: 0.55;
+      }
+
+      .hero-inner {
+        padding: 46px 0 38px;
+      }
+
+      .eyebrow {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 12px;
+      }
+
+      .eyebrow::before,
+      .eyebrow::after {
+        width: 22px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.1rem, 12vw, 3.1rem);
+        line-height: 1.18;
+        letter-spacing: 0.05em;
+        margin-bottom: 16px;
+      }
+
+      .hero-lead {
+        font-size: 0.98rem;
+        line-height: 1.85;
+        margin-bottom: 24px;
+        max-width: 100%;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .btn {
+        min-height: 50px;
+        width: 100%;
+        padding: 0 18px;
+        font-size: 0.92rem;
+        letter-spacing: 0.04em;
+      }
+
+      .floating-card {
+        margin-top: 28px;
+        gap: 12px;
+        font-size: 0.92rem;
+      }
+
+      .floating-card .icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        font-size: 22px;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .section-title {
+        margin-bottom: 28px;
+      }
+
+      .section-title .small {
+        font-size: 0.72rem;
+      }
+
+      .section-title h2 {
+        font-size: 1.8rem;
+        letter-spacing: 0.08em;
+      }
+
+      .about-text,
+      .booking-box,
+      .contact-box,
+      .booking-guide,
+      .booking-form,
+      .contact-card {
+        border-radius: 22px;
+      }
+
+      .about-text,
+      .booking-guide,
+      .booking-form,
+      .contact-card {
+        padding: 22px 18px;
+      }
+
+      .about-text h2,
+      .contact-info h2 {
+        font-size: 1.7rem;
+        letter-spacing: 0.06em;
+      }
+
+      .about-text p,
+      .booking-guide p,
+      .booking-guide li,
+      .contact-info p,
+      .info-list li {
+        font-size: 0.95rem;
+      }
+
+      .about-photo {
+        min-height: 310px;
+        border-radius: 24px;
+      }
+
+      .service-card {
+        min-height: auto;
+        padding: 26px 18px;
+        border-radius: 22px;
+      }
+
+      .service-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 20px;
+        font-size: 28px;
+      }
+
+      .course-card {
+        border-radius: 22px;
+        padding: 22px 18px;
+      }
+
+      .course-list li {
+        font-size: 0.98rem;
+      }
+
+      .course-list li strong {
+        font-size: 1.15rem;
+      }
+
+      .set-menu {
+        border-radius: 24px;
+        padding: 24px 16px;
+      }
+
+      .set-row {
+        padding: 14px;
+        border-radius: 16px;
+      }
+
+      .set-price {
+        width: 100%;
+        min-width: 0;
+        font-size: 1.2rem;
+      }
+
+      .booking-box {
+        gap: 18px;
+        padding: 18px 14px;
+      }
+
+      .form-field input,
+      .form-field select,
+      .form-field textarea {
+        min-height: 52px;
+        border-radius: 14px;
+        font-size: 16px;
+        padding: 12px 13px;
+      }
+
+      .form-field textarea {
+        min-height: 110px;
+      }
+
+      .booking-actions {
+        position: sticky;
+        bottom: 78px;
+        z-index: 30;
+        margin-top: 8px;
+      }
+
+      .booking-result {
+        font-size: 0.88rem;
+      }
+
+      .gallery-grid {
+        gap: 14px;
+      }
+
+      .gallery-item {
+        min-height: 230px;
+        border-radius: 22px;
+      }
+
+      .access-map {
+        border-radius: 22px;
+        margin-bottom: 20px;
+      }
+
+      .access-map iframe {
+        min-height: 300px;
+      }
+
+      .access-map-actions {
+        padding: 12px;
+      }
+
+      .contact-box {
+        gap: 18px;
+        padding: 18px 14px;
+      }
+
+      .phone-big {
+        font-size: 1.9rem;
+        word-break: keep-all;
+      }
+
+      .info-list li {
+        padding: 10px 0;
+      }
+
+      .mobile-reserve {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+      }
+
+      .mobile-reserve .btn {
+        min-height: 58px;
+        font-size: 1rem;
+        border-radius: 999px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .brand-name {
+        font-size: 0.82rem;
+      }
+
+      .brand-sub {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.25rem;
+      }
+
+      .phone-big {
+        font-size: 1.55rem;
+      }
+    }
+
   </style>
   <script type="application/ld+json">
 {
@@ -1377,6 +1718,18 @@
 
     <section id="access" class="section contact">
       <div class="container">
+        <div class="access-map" aria-label="シートーンタイ古式マッサージ Google Map">
+          <iframe
+            src="https://www.google.com/maps?q=%E3%80%92635-0835%20%E5%A5%88%E8%89%AF%E7%9C%8C%E5%8C%97%E8%91%9B%E5%9F%8E%E9%83%A1%E5%BA%83%E9%99%B5%E7%94%BA%E3%81%BF%E3%81%95%E3%81%95%E3%81%8E%E5%8F%B039-22%202F%20%E3%82%B7%E3%83%BC%E3%83%88%E3%83%BC%E3%83%B3%E3%82%BF%E3%82%A4%E5%8F%A4%E5%BC%8F%E3%83%9E%E3%83%83%E3%82%B5%E3%83%BC%E3%82%B8&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+          <div class="access-map-actions">
+            <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&query=%E3%80%92635-0835%20%E5%A5%88%E8%89%AF%E7%9C%8C%E5%8C%97%E8%91%9B%E5%9F%8E%E9%83%A1%E5%BA%83%E9%99%B5%E7%94%BA%E3%81%BF%E3%81%95%E3%81%95%E3%81%8E%E5%8F%B039-22%202F%20%E3%82%B7%E3%83%BC%E3%83%88%E3%83%BC%E3%83%B3%E3%82%BF%E3%82%A4%E5%8F%A4%E5%BC%8F%E3%83%9E%E3%83%83%E3%82%B5%E3%83%BC%E3%82%B8" target="_blank" rel="noopener">Google Mapで開く</a>
+          </div>
+        </div>
+
         <div class="contact-box">
           <div class="contact-info">
             <h2>ご予約・お問い合わせ</h2>
